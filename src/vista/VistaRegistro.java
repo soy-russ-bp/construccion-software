@@ -119,8 +119,6 @@ public class VistaRegistro extends JFrame {
 		fondo.setBounds(0, 0, 484, 511);
 		getContentPane().add(fondo);
 
-		// Mostrar ventana
-		setVisible(true);
 	}
 
 	private void inicializarCampoTexto(JTextField campo, int x, int y, JPanel panel) {
