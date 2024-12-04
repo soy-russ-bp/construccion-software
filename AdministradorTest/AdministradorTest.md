@@ -1,4 +1,4 @@
-Se evalúa que el método agregarProducto() permite añadir un nuevo producto al sistema.
+Se evalúa que el método agregarProducto() permita añadir un nuevo producto al sistema.
 Luego, se verifica que el producto agregado aparece correctamente en la lista de productos obtenida mediante mostrarProductos().
 
 Validación:
