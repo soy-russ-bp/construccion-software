@@ -31,59 +31,6 @@ public class VistaAdministrador extends JFrame {
 	JButton botonGenerarReporte;
 	JLabel totalVentas;
 	JTable tablaProductos;
-
-	public JButton getBotonCrear() {
-		return botonCrear;
-	}
-
-	public JButton getBotonModificar() {
-		return botonModificar;
-	}
-
-	public JButton getBotonEliminar() {
-		return botonEliminar;
-	}
-
-	public JButton getBotonVerDetalles() {
-		return botonVerDetalles;
-	}
-
-	public JButton getBotonGenerarReporte() {
-		return botonGenerarReporte;
-	}
-
-	public JLabel getTotalVentas() {
-		return totalVentas;
-	}
-
-	public void setTotalVentas(JLabel totalVentas) {
-		this.totalVentas = totalVentas;
-	}
-
-	public JTable getTablaProductos() {
-		return tablaProductos;
-	}
-
-	public void setTablaProductos(JTable tablaProductos) {
-		this.tablaProductos = tablaProductos;
-	}
-
-	public JTable getTablaHistorial() {
-		return tablaHistorial;
-	}
-
-	public void setTablaHistorial(JTable tablaHistorial) {
-		this.tablaHistorial = tablaHistorial;
-	}
-
-	public JComboBox<String> getSelectorMes() {
-		return selectorMes;
-	}
-
-	public void setSelectorMes(JComboBox<String> selectorMes) {
-		this.selectorMes = selectorMes;
-	}
-
 	JTable tablaHistorial;
 	JComboBox<String> selectorMes;
 
@@ -109,6 +56,7 @@ public class VistaAdministrador extends JFrame {
 	public VistaAdministrador() {
 		setTitle("Administración de cafetería");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setResizable(false);
 		setBounds(100, 100, 778, 407);
 		getContentPane().setLayout(null);
 		getContentPane().setBackground(CAFE);
@@ -149,20 +97,16 @@ public class VistaAdministrador extends JFrame {
 
 		// Botones debajo de la tabla de productos
 		botonCrear = new JButton("Crear");
-		botonCrear.setBounds(20, 309, 100, 30);
-		inicializarBoton(botonCrear);
+		inicializarBoton(botonCrear, 20, 309);
 
 		botonModificar = new JButton("Modificar");
-		botonModificar.setBounds(130, 309, 100, 30);
-		inicializarBoton(botonModificar);
+		inicializarBoton(botonModificar, 130, 309);
 
 		botonEliminar = new JButton("Eliminar");
-		botonEliminar.setBounds(240, 309, 100, 30);
-		inicializarBoton(botonEliminar);
+		inicializarBoton(botonEliminar, 240, 309);
 
 		botonVerDetalles = new JButton("Ver detalles");
-		botonVerDetalles.setBounds(350, 309, 120, 30);
-		inicializarBoton(botonVerDetalles);
+		inicializarBoton(botonVerDetalles, 350, 309);
 
 		/**
 		 * Sección para consultar el historial y el reporte
@@ -207,16 +151,17 @@ public class VistaAdministrador extends JFrame {
 
 		// Botón para generar reporte
 		botonGenerarReporte = new JButton("Generar reporte");
-		botonGenerarReporte.setBounds(540, 309, 120, 30);
-		inicializarBoton(botonGenerarReporte);
+		inicializarBoton(botonGenerarReporte, 540, 309);
 
 		// Mostrar la ventana
 		setVisible(true);
 	}
 
-	private void inicializarBoton(JButton boton) {
+	private void inicializarBoton(JButton boton, int coordenadaX, int coordenadaY) {
 		boton.setBorder(null);
 		boton.setBackground(CAFE_CLARO);
+		boton.setFont(new Font("Arial Rounded MT Bold", Font.PLAIN, 12));
+		boton.setBounds(coordenadaX, coordenadaY, 100, 30);
 		getContentPane().add(boton);
 	}
 
@@ -239,4 +184,45 @@ public class VistaAdministrador extends JFrame {
 		encabezado.setForeground(AZUL_MARINO);
 		encabezado.setOpaque(true);
 	}
+
+	public JButton getBotonCrear() {
+		return botonCrear;
+	}
+
+	public JButton getBotonModificar() {
+		return botonModificar;
+	}
+
+	public JButton getBotonEliminar() {
+		return botonEliminar;
+	}
+
+	public JButton getBotonVerDetalles() {
+		return botonVerDetalles;
+	}
+
+	public JButton getBotonGenerarReporte() {
+		return botonGenerarReporte;
+	}
+
+	public JLabel getTotalVentas() {
+		return totalVentas;
+	}
+
+	public void setTotalVentas(JLabel totalVentas) {
+		this.totalVentas = totalVentas;
+	}
+
+	public JTable getTablaProductos() {
+		return tablaProductos;
+	}
+
+	public JTable getTablaHistorial() {
+		return tablaHistorial;
+	}
+
+	public JComboBox<String> getSelectorMes() {
+		return selectorMes;
+	}
+
 }

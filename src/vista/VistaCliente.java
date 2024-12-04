@@ -52,6 +52,7 @@ public class VistaCliente extends JFrame {
 	 */
 	public VistaCliente() {
 		setTitle("Pedido");
+		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 778, 407);
 		getContentPane().setLayout(null);

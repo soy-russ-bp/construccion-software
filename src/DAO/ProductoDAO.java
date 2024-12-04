@@ -7,15 +7,15 @@ import java.util.List;
 import modelo.Producto;
 
 public class ProductoDAO {
-    public static void agregarProducto(String nombre, double precio, double calificacion) {
-        String sql = "INSERT INTO productos (nombre, precio, calificacion) VALUES (?, ?, ?)";
+    public static void agregarProducto(String nombre, double precio, String descripcion) {
+        String sql = "INSERT INTO productos (nombre, precio, descripcion) VALUES (?, ?, ?)";
 
         try (Connection conn = ConexionBaseDatos.obtenerConexion();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setString(1, nombre);
             stmt.setDouble(2, precio);
-            stmt.setDouble(3, calificacion);
+            stmt.setString(3, descripcion);
             stmt.executeUpdate();
             System.out.println("Producto agregado exitosamente.");
         } catch (SQLException e) {
@@ -45,18 +45,33 @@ public class ProductoDAO {
         return productos;
     }
     
-    public static void actualizarProducto(int id, String nombre, double precio, double calificacion) {
-        String sql = "UPDATE productos SET nombre = ?, precio = ?, calificacion = ? WHERE id_producto = ?";
+    public static void actualizarProducto(int id, String nombre, double precio, String descripcion) {
+        String sql = "UPDATE productos SET nombre = ?, precio = ?, descripcion = ? WHERE id_producto = ?";
 
         try (Connection conn = ConexionBaseDatos.obtenerConexion();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setString(1, nombre);
             stmt.setDouble(2, precio);
-            stmt.setDouble(3, calificacion);
+            stmt.setString(3, descripcion);
             stmt.setInt(4, id);
             stmt.executeUpdate();
             System.out.println("Producto actualizado.");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public static void actualizarCalificacion(int id, double calificacion) {
+    	String sql = "UPDATE productos SET calificacion = ? WHERE id_producto = ?";
+
+        try (Connection conn = ConexionBaseDatos.obtenerConexion();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setDouble(1, calificacion);
+            stmt.setInt(2, id);
+            stmt.executeUpdate();
+            System.out.println("Calificación actualizada.");
         } catch (SQLException e) {
             e.printStackTrace();
         }

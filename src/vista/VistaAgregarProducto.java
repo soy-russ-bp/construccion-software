@@ -20,9 +20,9 @@ public class VistaAgregarProducto extends JFrame {
 	private final Color CAFE = new Color(144, 120, 91);
 	private final Color AZUL_MARINO = new Color(46, 65, 83);
 
-	private JTextField nombreProductoTxt;
-	private JTextField precioProductoTxt;
-	private JTextArea descripcionProductoTxt;
+	private JTextField textoNombreProducto;
+	private JTextField textoPrecioProducto;
+	private JTextArea textoDescripcionProducto;
 	private JButton botonAgregar;
 	private JButton botonCancelar;
 
@@ -47,7 +47,8 @@ public class VistaAgregarProducto extends JFrame {
 	 */
 	public VistaAgregarProducto() {
 		setTitle("Agregar nuevo producto");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setResizable(false);
 		setBounds(100, 100, 500, 380);
 		getContentPane().setLayout(null);
 		getContentPane().setBackground(CAFE);
@@ -57,34 +58,34 @@ public class VistaAgregarProducto extends JFrame {
 		titulo.setHorizontalAlignment(SwingConstants.CENTER);
 		titulo.setFont(new Font("Arial Rounded MT Bold", Font.BOLD, 24));
 		titulo.setForeground(AZUL_MARINO);
-		titulo.setBounds(50, 20, 400, 40);
+		titulo.setBounds(42, 23, 400, 40);
 		getContentPane().add(titulo);
 
 		// Nombre del producto
 		JLabel nombreProductoLabel = new JLabel("Nombre del producto:");
-		inicializarEtiqueta(nombreProductoLabel, 50, 80);
+		inicializarEtiqueta(nombreProductoLabel, 45, 80);
 
-		nombreProductoTxt = new JTextField();
-		inicializarCampoTexto(nombreProductoTxt, 230, 80);
+		textoNombreProducto = new JTextField();
+		inicializarCampoTexto(textoNombreProducto, 230, 80);
 
 		// Precio del producto
 		JLabel precioProductoLabel = new JLabel("Precio:");
-		inicializarEtiqueta(precioProductoLabel, 50, 130);
+		inicializarEtiqueta(precioProductoLabel, 45, 130);
 
-		precioProductoTxt = new JTextField();
-		inicializarCampoTexto(precioProductoTxt, 230, 130);
+		textoPrecioProducto = new JTextField();
+		inicializarCampoTexto(textoPrecioProducto, 230, 130);
 
 		// Descripción del producto
 		JLabel descripcionProductoLabel = new JLabel("Descripción:");
-		inicializarEtiqueta(descripcionProductoLabel, 50, 180);
+		inicializarEtiqueta(descripcionProductoLabel, 45, 180);
 
-		descripcionProductoTxt = new JTextArea();
-		descripcionProductoTxt.setLineWrap(true);
-		descripcionProductoTxt.setWrapStyleWord(true);
-		descripcionProductoTxt.setEditable(true);
-		inicializarAreaTexto(descripcionProductoTxt);
+		textoDescripcionProducto = new JTextArea();
+		textoDescripcionProducto.setLineWrap(true);
+		textoDescripcionProducto.setWrapStyleWord(true);
+		textoDescripcionProducto.setEditable(true);
+		inicializarAreaTexto(textoDescripcionProducto);
 
-		JScrollPane scrollDescripcion = new JScrollPane(descripcionProductoTxt);
+		JScrollPane scrollDescripcion = new JScrollPane(textoDescripcionProducto);
 		scrollDescripcion.setVerticalScrollBarPolicy(scrollDescripcion.VERTICAL_SCROLLBAR_AS_NEEDED);
 		scrollDescripcion.setHorizontalScrollBarPolicy(scrollDescripcion.HORIZONTAL_SCROLLBAR_NEVER);
 		scrollDescripcion.setBounds(230, 180, 190, 80);
@@ -113,7 +114,7 @@ public class VistaAgregarProducto extends JFrame {
 		campo.setBackground(BEIGE);
 		campo.setForeground(AZUL_MARINO);
 		campo.setBorder(null);
-		campo.setFont(new Font("Arial Rounded MT Bold", Font.PLAIN, 14));
+		campo.setFont(new Font("Arial", Font.PLAIN, 14));
 	}
 
 	private void inicializarBoton(JButton boton, int coordenadaX, int coordenadaY) {
@@ -125,9 +126,30 @@ public class VistaAgregarProducto extends JFrame {
 	}
 
 	private void inicializarEtiqueta(JLabel etiqueta, int coordenadaX, int coordenadaY) {
-		etiqueta.setFont(new Font("Arial Rounded MT Bold", Font.BOLD, 14));
+		etiqueta.setFont(new Font("Arial Rounded MT Bold", Font.PLAIN, 16));
 		etiqueta.setForeground(AZUL_MARINO);
 		etiqueta.setBounds(coordenadaX, coordenadaY, 200, 25);
 		getContentPane().add(etiqueta);
 	}
+
+	public JTextField getNombreProducto() {
+		return textoNombreProducto;
+	}
+
+	public JTextField getPrecioProducto() {
+		return this.textoPrecioProducto;
+	}
+
+	public JTextArea getDescripcionProducto() {
+		return this.textoDescripcionProducto;
+	}
+
+	public JButton getBotonAgregar() {
+		return this.botonAgregar;
+	}
+
+	public JButton getBotonCancelar() {
+		return this.botonCancelar;
+	}
+
 }

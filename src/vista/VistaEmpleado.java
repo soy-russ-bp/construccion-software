@@ -26,10 +26,6 @@ public class VistaEmpleado extends JFrame {
 	JButton botonVerDetalles;
 	JTable tablaProductos;
 
-	public JButton getBotonVerDetalles() {
-		return botonVerDetalles;
-	}
-
 	/**
 	 * Launch the application.
 	 */
@@ -52,6 +48,7 @@ public class VistaEmpleado extends JFrame {
 	public VistaEmpleado() {
 		setTitle("Pedidos");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setResizable(false);
 		setBounds(50, 50, 610, 500);
 		getContentPane().setLayout(null);
 		getContentPane().setBackground(CAFE);
@@ -109,5 +106,9 @@ public class VistaEmpleado extends JFrame {
 		encabezado.setBackground(BEIGE);
 		encabezado.setForeground(AZUL_MARINO);
 		encabezado.setOpaque(true);
+	}
+
+	public JButton getBotonVerDetalles() {
+		return botonVerDetalles;
 	}
 }
