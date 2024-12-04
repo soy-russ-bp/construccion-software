@@ -127,6 +127,7 @@ public class ControladorUsuario {
         //TODO
     }
     private void redirigirVistaAdministrador(int id, String correo, String contraseña, String tipo) {
+        this.vistaIngreso.setVisible(false);
         VistaAdministrador vistaAdministrador = new VistaAdministrador();
         Administrador administrador = new Administrador( id, correo, contraseña, tipo);
         new ControladorAdministrador(administrador, vistaAdministrador);

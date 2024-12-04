@@ -2,12 +2,15 @@ package controlador;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import DAO.ProductoDAO;
 import modelo.Administrador;
 import modelo.Producto;
+import modelo.Reporte;
 import vista.VistaAdministrador;
 import vista.VistaAgregarProducto;
 import vista.VistaDetalles;
@@ -36,7 +39,29 @@ public class ControladorAdministrador implements ActionListener, ListSelectionLi
 		
 		actualizarTablaProductos();
 	}
-	
+	private void generarReporte() {
+        String periodo = (String) vista.getSelectorMes().getSelectedItem();
+        if ("Mes".equals(periodo)) {
+            vista.mostrarMensaje("Selecciona un periodo válido para el reporte.");
+            return;
+        }
+
+        // Obtener productos vendidos desde el modelo
+        Reporte reporte = administrador.verReportes(periodo);
+
+        // Generar y guardar el reporte
+        String filePath = "reporte_" + periodo + ".txt";
+        reporte.guardarComoTxt(filePath);
+        vista.mostrarMensaje("Reporte generado correctamente: " + filePath);
+
+        // Actualizar la tabla de historial en la vista
+        List<Producto> productosVendidos = ProductoDAO.obtenerProductosVendidos();
+        Object[][] datosTabla = productosVendidos.stream()
+                .map(p -> new Object[]{p.getId(), p.getNombre(), p.getCantidadVendida(), p.getTotalVendido()})
+                .toArray(Object[][]::new);
+        vista.actualizarHistorial(datosTabla);
+    }
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == this.vista.getBotonCrear()) {
@@ -70,7 +95,7 @@ public class ControladorAdministrador implements ActionListener, ListSelectionLi
         }
 		
 		if (e.getSource() == this.vista.getBotonGenerarReporte()) {
-        	
+        	generarReporte();
         }
 	}
 	
