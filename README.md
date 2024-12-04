@@ -3,6 +3,10 @@
 ## 📝 Descripción
 Este proyecto es parte de la clase de *Construcción de software* y se enfoca en desarrollar un sistema integral para la administración de una cafetería. El objetivo principal es aplicar lineamientos de buenas prácticas de codificación, siguiendo principios de diseño y las mejores prácticas de desarrollo, inspiradas en obras como *Code Complete* y *Clean Code* 📗.
 
+## Nuestro código:
+
+[Aquí](/proyecto-construccion/src/)
+
 ## Requisitos del Sistema
 
 ### 1. Gestión de Usuarios
