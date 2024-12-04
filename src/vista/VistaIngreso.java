@@ -141,7 +141,7 @@ public class VistaIngreso extends JFrame {
         mensajeLabel.setText(mensaje);
     }
 
-    public void addLoginListener(ActionListener listener) {
+    public void addIngresoListener(ActionListener listener) {
         botonIngresar.addActionListener(listener);
     }
 }

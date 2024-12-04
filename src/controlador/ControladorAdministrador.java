@@ -24,6 +24,8 @@ public class ControladorAdministrador implements ActionListener, ListSelectionLi
 	
 	public ControladorAdministrador(Administrador administrador, VistaAdministrador vista) {
 		this.vista = vista;
+		this.vista.setVisible(true);
+		
 		this.administrador = administrador;
 		
 		this.vista.getBotonCrear().addActionListener(this);

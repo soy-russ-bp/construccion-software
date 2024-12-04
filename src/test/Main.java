@@ -9,19 +9,19 @@ import controlador.ControladorUsuario;
 import modelo.Administrador;
 import vista.VistaAdministrador;
 import vista.VistaIngreso;
+import vista.VistaRegistro;
 
 public class Main {
 	public static void main(String[] args) {
-		//Administrador administrador = new Administrador();
-		//VistaAdministrador vistaAdministrador = new VistaAdministrador();
-		//ControladorAdministrador administradorControlador = new ControladorAdministrador(administrador, vistaAdministrador);
-		//vistaAdministrador.setVisible(true);
 
 		//Ingreso:
-		
         UsuarioDAO repositorio = new UsuarioDAO();
-        VistaIngreso vista = new VistaIngreso();
-        new ControladorUsuario(vista, repositorio);
+        VistaIngreso vistaIngreso = new VistaIngreso();
+		VistaRegistro vistaRegistro = new VistaRegistro();
+        new ControladorUsuario(vistaIngreso, vistaRegistro, repositorio);
+
+		// Registro:
+
 
 	}
 }

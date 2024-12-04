@@ -20,20 +20,7 @@ public class VistaRegistro extends JFrame {
 	private JTextField txtConfirmarContrasena;
 	private JButton btnRegistrarse;
 	private JButton btnYaTengoCuenta;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		SwingUtilities.invokeLater(() -> {
-			try {
-				VistaRegistro frame = new VistaRegistro();
-				frame.setVisible(true);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		});
-	}
+	private JLabel mensajeLabel; // Para mostrar el mensaje
 
 	/**
 	 * Create the frame.
@@ -109,6 +96,13 @@ public class VistaRegistro extends JFrame {
 		btnRegistrarse = new JButton("Registrarse");
 		inicializarBoton(btnRegistrarse, CAFE_CLARO, 30, 310, panel);
 
+		// Etiqueta de mensaje
+		mensajeLabel = new JLabel();
+		mensajeLabel.setFont(new Font("Arial", Font.PLAIN, 12));
+		mensajeLabel.setForeground(Color.RED);
+		mensajeLabel.setBounds(30, 340, 340, 20);
+		panel.add(mensajeLabel);
+
 		// Separador
 		JSeparator separador = new JSeparator();
 		separador.setBounds(30, 350, 340, 10);
@@ -157,8 +151,26 @@ public class VistaRegistro extends JFrame {
 		panel.add(boton);
 	}
 
+	// Métodos para obtener los valores de los campos de texto
+	public String getNombre() {
+		return txtNombre.getText();
+	}
+	public String getCorreo() {
+		return txtCorreo.getText();
+	}
+	public String getContrasena() {
+		return txtContrasena.getText();
+	}
+	public String getConfirmarContrasena() {
+		return txtConfirmarContrasena.getText();
+	}
+
+	public void setMensaje(String mensaje) {
+        mensajeLabel.setText(mensaje);
+    }
+
 	// Métodos para añadir ActionListeners
-	public void addRegistrarseListener(ActionListener actionListener) {
+	public void addRegistroListener(ActionListener actionListener) {
 		btnRegistrarse.addActionListener(actionListener);
 	}
 
