@@ -1,5 +1,7 @@
 package modelo;
 
+import DAO.PedidoDAO;
+
 public class Cliente extends Usuario {
 	public void calificarProducto(Producto producto, String retroalimentacion) {
 		
@@ -10,6 +12,8 @@ public class Cliente extends Usuario {
 	}
 	
 	public void hacerPedido(Pedido pedido) {
-		
+		PedidoDAO.hacerPedido(pedido);
 	}
+	
+	
 }
