@@ -7,11 +7,12 @@ import java.util.List;
 import modelo.Producto;
 
 public class ProductoDAO {
+    
     public static void agregarProducto(String nombre, double precio, String descripcion) {
         String sql = "INSERT INTO productos (nombre, precio, descripcion) VALUES (?, ?, ?)";
 
         try (Connection conn = ConexionBaseDatos.obtenerConexion();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setString(1, nombre);
             stmt.setDouble(2, precio);

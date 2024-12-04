@@ -1,0 +1,91 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Current File",
+            "request": "launch",
+            "mainClass": "${file}"
+        },
+        {
+            "type": "java",
+            "name": "Main",
+            "request": "launch",
+            "mainClass": "test.Main",
+            "projectName": "proyecto_construccion"
+        },
+        {
+            "type": "java",
+            "name": "VistaAdministrador",
+            "request": "launch",
+            "mainClass": "vista.VistaAdministrador",
+            "projectName": "proyecto_construccion"
+        },
+        {
+            "type": "java",
+            "name": "VistaAgregarProducto",
+            "request": "launch",
+            "mainClass": "vista.VistaAgregarProducto",
+            "projectName": "proyecto_construccion"
+        },
+        {
+            "type": "java",
+            "name": "VistaCliente",
+            "request": "launch",
+            "mainClass": "vista.VistaCliente",
+            "projectName": "proyecto_construccion"
+        },
+        {
+            "type": "java",
+            "name": "VistaConfirmarProducto",
+            "request": "launch",
+            "mainClass": "vista.VistaConfirmarProducto",
+            "projectName": "proyecto_construccion"
+        },
+        {
+            "type": "java",
+            "name": "VistaDetalles",
+            "request": "launch",
+            "mainClass": "vista.VistaDetalles",
+            "projectName": "proyecto_construccion"
+        },
+        {
+            "type": "java",
+            "name": "VistaDetallesHecho",
+            "request": "launch",
+            "mainClass": "vista.VistaDetallesHecho",
+            "projectName": "proyecto_construccion"
+        },
+        {
+            "type": "java",
+            "name": "VistaEmpleado",
+            "request": "launch",
+            "mainClass": "vista.VistaEmpleado",
+            "projectName": "proyecto_construccion"
+        },
+        {
+            "type": "java",
+            "name": "VistaIngreso",
+            "request": "launch",
+            "mainClass": "vista.VistaIngreso",
+            "projectName": "proyecto_construccion"
+        },
+        {
+            "type": "java",
+            "name": "VistaMenuProductos",
+            "request": "launch",
+            "mainClass": "vista.VistaMenuProductos",
+            "projectName": "proyecto_construccion"
+        },
+        {
+            "type": "java",
+            "name": "VistaRegistro",
+            "request": "launch",
+            "mainClass": "vista.VistaRegistro",
+            "projectName": "proyecto_construccion"
+        }
+    ]
+}
