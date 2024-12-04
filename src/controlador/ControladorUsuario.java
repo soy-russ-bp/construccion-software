@@ -60,12 +60,28 @@ public class ControladorUsuario {
         String contrasena = vistaRegistro.getContrasena();
         String contrasenaConfirmada = vistaRegistro.getConfirmarContrasena();
 
+        validarCorreo(correo);
+        validarContrasena(contrasena, contrasenaConfirmada);
+    
+        try {
+            repositorio.agregarCliente(correo, contrasena);
+            vistaRegistro.setMensaje("Usuario registrado correctamente.");
+            
+            redirigirVistaCliente();
+        } catch (Exception e) {
+            vistaRegistro.setMensaje("Error: " + e.getMessage());
+        }
+    }
+
+    private void validarCorreo(String correo){
         boolean correoValido = correo.contains("@");
         if (!correoValido) {
             vistaRegistro.setMensaje("Ingresa un correo válido.");
             return; 
         }
+    }
 
+    private void validarContrasena(String contrasena, String contrasenaConfirmada){
         boolean contrasenaVacia = contrasena.equals("");
         if (contrasenaVacia) {
             vistaRegistro.setMensaje("Ingresa una contraseña.");
@@ -77,15 +93,6 @@ public class ControladorUsuario {
         if (!contrasenasIguales) {
             vistaRegistro.setMensaje("Las contraseñas no coinciden.");
             return;
-        }
-    
-        try {
-            repositorio.agregarCliente(correo, contrasena);
-            vistaRegistro.setMensaje("Usuario registrado correctamente.");
-            
-            redirigirVistaCliente();
-        } catch (Exception e) {
-            vistaRegistro.setMensaje("Error: " + e.getMessage());
         }
     }
 

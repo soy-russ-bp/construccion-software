@@ -20,8 +20,5 @@ public class Main {
 		VistaRegistro vistaRegistro = new VistaRegistro();
         new ControladorUsuario(vistaIngreso, vistaRegistro, repositorio);
 
-		// Registro:
-
-
 	}
 }
