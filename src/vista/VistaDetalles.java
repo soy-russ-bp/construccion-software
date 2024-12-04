@@ -12,9 +12,6 @@ public class VistaDetalles extends JFrame {
 
 	private JLabel nombreProducto;
 	private JLabel imagenProducto;
-	private JLabel lblCalificacion;
-	private JLabel lblPrecio;
-	private JLabel lblDescripcion;
 	private JLabel descripcionProducto;
 	private JLabel precioProducto;
 
@@ -37,7 +34,8 @@ public class VistaDetalles extends JFrame {
 	 */
 	public VistaDetalles() {
 		setTitle("Detalles del producto");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setResizable(false);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 391, 486);
 		getContentPane().setBackground(CAFE);
 		getContentPane().setLayout(null);
@@ -67,21 +65,28 @@ public class VistaDetalles extends JFrame {
 		getContentPane().add(imagenProducto);
 
 		// Calificación
-		lblCalificacion = new JLabel("/ 5 estrellas");
+		JLabel lblCalificacion = new JLabel("/ 5 estrellas");
 		lblCalificacion.setFont(new Font("Arial Rounded MT Bold", Font.PLAIN, 16));
 		lblCalificacion.setForeground(AZUL_MARINO);
 		lblCalificacion.setBounds(86, 273, 125, 20);
 		getContentPane().add(lblCalificacion);
 
 		// Precio
-		lblPrecio = new JLabel("Precio: $");
+		JLabel lblPrecio = new JLabel("Precio: $");
 		lblPrecio.setFont(new Font("Arial Rounded MT Bold", Font.PLAIN, 16));
 		lblPrecio.setForeground(AZUL_MARINO);
 		lblPrecio.setBounds(50, 303, 81, 20);
 		getContentPane().add(lblPrecio);
 
+		precioProducto = new JLabel("0.00");
+		precioProducto.setHorizontalAlignment(SwingConstants.LEFT);
+		precioProducto.setForeground(new Color(46, 65, 83));
+		precioProducto.setFont(new Font("Arial Rounded MT Bold", Font.PLAIN, 16));
+		precioProducto.setBounds(129, 304, 221, 19);
+		getContentPane().add(precioProducto);
+
 		// Descripción
-		lblDescripcion = new JLabel("Descripción:");
+		JLabel lblDescripcion = new JLabel("Descripción:");
 		lblDescripcion.setFont(new Font("Arial Rounded MT Bold", Font.PLAIN, 16));
 		lblDescripcion.setForeground(AZUL_MARINO);
 		lblDescripcion.setBounds(50, 333, 300, 20);
@@ -96,14 +101,24 @@ public class VistaDetalles extends JFrame {
 		descripcionProducto.setBounds(50, 358, 275, 62);
 		getContentPane().add(descripcionProducto);
 
-		precioProducto = new JLabel("0.00");
-		precioProducto.setHorizontalAlignment(SwingConstants.LEFT);
-		precioProducto.setForeground(new Color(46, 65, 83));
-		precioProducto.setFont(new Font("Arial Rounded MT Bold", Font.PLAIN, 16));
-		precioProducto.setBounds(129, 304, 221, 19);
-		getContentPane().add(precioProducto);
-
 		// Mostrar ventana
 		setVisible(true);
 	}
+
+	public JLabel getNombreProducto() {
+		return nombreProducto;
+	}
+
+	public JLabel getImagenProducto() {
+		return imagenProducto;
+	}
+
+	public JLabel getDescripcionProducto() {
+		return descripcionProducto;
+	}
+
+	public JLabel getPrecioProducto() {
+		return precioProducto;
+	}
+
 }

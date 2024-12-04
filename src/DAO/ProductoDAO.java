@@ -23,7 +23,7 @@ public class ProductoDAO {
         }
     }
     
-    public List<Producto> mostrarProductos() {
+    public static List<Producto> mostrarProductos() {
     	List<Producto> productos = new ArrayList<>();
         String sql = "SELECT * FROM productos";
 
@@ -32,17 +32,44 @@ public class ProductoDAO {
              ResultSet rs = stmt.executeQuery(sql)) {
 
             while (rs.next()) {
-                int id = rs.getInt("id");
+                int id = rs.getInt("id_producto");
                 String nombre = rs.getString("nombre");
                 double precio = rs.getDouble("precio");
+                String descripcion = rs.getString("descripcion");
                 double calificacion = rs.getDouble("calificacion");
                 
-                productos.add(new Producto(id, nombre, precio,calificacion));
+                productos.add(new Producto(id, nombre, precio, descripcion, calificacion));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return productos;
+    }
+    
+    public static Producto seleccionarProducto(int idProductoSeleccionado) {
+        Producto producto = null;
+        String sql = "SELECT * FROM productos WHERE id_producto = ?";
+
+        try (Connection conn = ConexionBaseDatos.obtenerConexion();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setInt(1, idProductoSeleccionado);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    int id = rs.getInt("id_producto");
+                    String nombre = rs.getString("nombre");
+                    double precio = rs.getDouble("precio");
+                    String descripcion = rs.getString("descripcion");
+                    double calificacion = rs.getDouble("calificacion");
+                    
+                    producto = new Producto(id, nombre, precio, descripcion, calificacion);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return producto;
     }
     
     public static void actualizarProducto(int id, String nombre, double precio, String descripcion) {

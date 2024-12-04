@@ -12,6 +12,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
@@ -32,6 +33,7 @@ public class VistaAdministrador extends JFrame {
 	JLabel totalVentas;
 	JTable tablaProductos;
 	JTable tablaHistorial;
+	DefaultTableModel modeloTablaProductos;
 	JComboBox<String> selectorMes;
 
 	/**
@@ -84,8 +86,10 @@ public class VistaAdministrador extends JFrame {
 		getContentPane().add(tituloProductos);
 
 		// Tabla de productos
-		String[] columnasTablaProductos = { "Nombre", "Precio", "Calificación" };
-		tablaProductos = new JTable(new DefaultTableModel(null, columnasTablaProductos));
+		String[] columnasTablaProductos = { "id", "Nombre", "Precio", "Calificación" };
+		modeloTablaProductos = new DefaultTableModel(columnasTablaProductos, 0);
+		tablaProductos = new JTable(modeloTablaProductos);
+		tablaProductos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		inicializarTabla(tablaProductos);
 
 		JScrollPane scrollProductos = new JScrollPane(tablaProductos);
@@ -101,12 +105,15 @@ public class VistaAdministrador extends JFrame {
 
 		botonModificar = new JButton("Modificar");
 		inicializarBoton(botonModificar, 130, 309);
+		botonModificar.setEnabled(false);
 
 		botonEliminar = new JButton("Eliminar");
 		inicializarBoton(botonEliminar, 240, 309);
+		botonEliminar.setEnabled(false);
 
 		botonVerDetalles = new JButton("Ver detalles");
 		inicializarBoton(botonVerDetalles, 350, 309);
+		botonVerDetalles.setEnabled(false);
 
 		/**
 		 * Sección para consultar el historial y el reporte
@@ -174,12 +181,12 @@ public class VistaAdministrador extends JFrame {
 
 	private void inicializarScroll(JScrollPane scroll) {
 		scroll.setBorder(BorderFactory.createEmptyBorder());
-		scroll.setFont(new Font("Arial Rounded MT Bold", Font.PLAIN, 12));
+		scroll.setFont(new Font("Arial Rounded MT Bold", Font.PLAIN, 14));
 		getContentPane().add(scroll);
 	}
 
 	private void inicializarEncabezadoTabla(JTableHeader encabezado) {
-		encabezado.setFont(new Font("Arial", Font.BOLD, 14));
+		encabezado.setFont(new Font("Arial Rounded MT Bold", Font.PLAIN, 16));
 		encabezado.setBackground(BEIGE);
 		encabezado.setForeground(AZUL_MARINO);
 		encabezado.setOpaque(true);
@@ -215,6 +222,10 @@ public class VistaAdministrador extends JFrame {
 
 	public JTable getTablaProductos() {
 		return tablaProductos;
+	}
+
+	public DefaultTableModel getModeloTablaProductos() {
+		return modeloTablaProductos;
 	}
 
 	public JTable getTablaHistorial() {

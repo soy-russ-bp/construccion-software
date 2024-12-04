@@ -9,10 +9,13 @@ import vista.VistaAgregarProducto;
 public class ControladorAgregarProducto implements ActionListener{
 	private Administrador administrador; 
 	private VistaAgregarProducto vista;
+	private ControladorAdministrador controladorAdministrador;
 	
-	public ControladorAgregarProducto(Administrador administrador, VistaAgregarProducto vista) {
+	public ControladorAgregarProducto(Administrador administrador, VistaAgregarProducto vista, 
+			ControladorAdministrador controladorAdministrador) {
 		this.administrador = administrador;
 		this.vista = vista;
+		this.controladorAdministrador = controladorAdministrador;
 		
 		this.vista.getBotonCancelar().addActionListener(this);
 		this.vista.getBotonAgregar().addActionListener(this);
@@ -32,6 +35,8 @@ public class ControladorAgregarProducto implements ActionListener{
 			String descripcionProducto = this.vista.getDescripcionProducto().getText();
 			
         	administrador.agregarProducto(nombreProducto, precio, descripcionProducto);
+        	this.controladorAdministrador.actualizarTablaProductos();
+        	vista.dispose();
         }
 	}
 

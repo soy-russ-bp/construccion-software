@@ -4,12 +4,20 @@ public class Producto {
 	private int id;
 	private String nombre;
 	private double precio;
+	private String descripcion;
 	private double calificacion;
 	
-	public Producto(int id, String nombre, double precio, double calificacion) {
+	public Producto(int id, String nombre, double precio) {
 		setId(id);
 		setNombre(nombre);
 		setPrecio(precio);
+	}
+	
+	public Producto(int id, String nombre, double precio, String descripcion, double calificacion) {
+		setId(id);
+		setNombre(nombre);
+		setPrecio(precio);
+		setDescripcion(descripcion);
 		setCalificacion(calificacion);
 	}
 	
@@ -43,6 +51,14 @@ public class Producto {
 
 	public void setCalificacion(double calificacion) {
 		this.calificacion = calificacion;
+	}
+
+	public String getDescripcion() {
+		return descripcion;
+	}
+
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
 	}
 	
 	

@@ -1,11 +1,6 @@
 package modelo;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.util.List;
-
-import DAO.ConexionBaseDatos;
 import DAO.ProductoDAO;
 
 public class Administrador extends Usuario {
@@ -37,6 +32,12 @@ public class Administrador extends Usuario {
 		ProductoDAO.eliminarProducto(id);
     }
 	
+	public List<Producto> mostrarProductos() {
+		return ProductoDAO.mostrarProductos();
+	}
 	
+	public Producto seleccionarProducto(int id) {
+		return ProductoDAO.seleccionarProducto(id);
+	}
 
 }
