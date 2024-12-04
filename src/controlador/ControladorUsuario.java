@@ -4,8 +4,10 @@ import java.sql.Connection;
 
 import DAO.UsuarioDAO;
 import modelo.Administrador;
+import modelo.Cliente;
 import modelo.Usuario;
 import vista.VistaAdministrador;
+import vista.VistaCliente;
 import vista.VistaIngreso;
 import vista.VistaRegistro;
 
@@ -27,7 +29,11 @@ public class ControladorUsuario {
         // Agregar un listener al botón de registro
         this.vistaRegistro.addRegistroListener(evento -> registrarUsuario());
 
-        // Agregar un listener al botón de redirigir
+        // Agregar un listener al botón de "no tengo cuenta"
+        this.vistaIngreso.addBotonNoTengoCuentaListener(evento -> mostrarVistaRegistro());
+
+        // Agregar un listener al botón de "ya tengo cuenta"
+        this.vistaRegistro.addBotonYaTengoCuentaListener(evento -> mostrarVistaIngreso());
 
     }
 
@@ -76,21 +82,45 @@ public class ControladorUsuario {
         try {
             repositorio.agregarCliente(correo, contrasena);
             vistaRegistro.setMensaje("Usuario registrado correctamente.");
+            
+            redirigirVistaCliente();
         } catch (Exception e) {
             vistaRegistro.setMensaje("Error: " + e.getMessage());
         }
     }
 
+    private void mostrarVistaRegistro() {
+        vistaIngreso.setVisible(false);
+        vistaRegistro.setVisible(true);
+        
+    }
+
+    private void mostrarVistaIngreso() {
+        vistaRegistro.setVisible(false);
+        vistaIngreso.setVisible(true);
+    }
+
     private void redirigirUsuario(Usuario usuario) {
         if (usuario.getTipo().equals("Cliente")) {
-            // Redirigir a la vista de cliente
+            redirigirVistaCliente();   
+
         } else if (usuario.getTipo().equals("Empleado")) {
-            // Redirigir a la vista de empleado
+            redirigirVistaEmpleado();
+
         } else if (usuario.getTipo().equals("Administrador")) {
-            // Redirigir a la vista de administrador
-            Administrador administrador = new Administrador();
-            VistaAdministrador vistaAdministrador = new VistaAdministrador();
-		    ControladorAdministrador administradorControlador = new ControladorAdministrador(administrador, vistaAdministrador);
+            redirigirVistaAdministrador();
+
         }
     }
+
+    private void redirigirVistaCliente() {
+        //TODO
+    }
+    private void redirigirVistaEmpleado() {
+        //TODO
+    }
+    private void redirigirVistaAdministrador() {
+        //TODO
+    }
+
 }

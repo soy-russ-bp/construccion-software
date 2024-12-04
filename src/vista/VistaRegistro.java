@@ -174,7 +174,7 @@ public class VistaRegistro extends JFrame {
 		btnRegistrarse.addActionListener(actionListener);
 	}
 
-	public void addYaTengoCuentaListener(ActionListener actionListener) {
+	public void addBotonYaTengoCuentaListener(ActionListener actionListener) {
 		btnYaTengoCuenta.addActionListener(actionListener);
 	}
 }

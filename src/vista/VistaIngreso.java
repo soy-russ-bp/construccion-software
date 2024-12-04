@@ -96,8 +96,6 @@ public class VistaIngreso extends JFrame {
         fondo.setBounds(0, 0, 500, 400);
         getContentPane().add(fondo);
 
-        // Mostrar ventana
-        setVisible(true);
     }
 
     private void inicializarCampoTexto(JTextField campo, int coordenadaX, int coordenadaY, JPanel panel) {
@@ -144,4 +142,8 @@ public class VistaIngreso extends JFrame {
     public void addIngresoListener(ActionListener listener) {
         botonIngresar.addActionListener(listener);
     }
+
+	public void addBotonNoTengoCuentaListener(ActionListener listener) {
+		botonNoTengoCuenta.addActionListener(listener);
+	}
 }
