@@ -6,19 +6,23 @@ public class Producto {
 	private double precio;
 	private String descripcion;
 	private double calificacion;
-	
-	public Producto(int id, String nombre, double precio) {
-		setId(id);
-		setNombre(nombre);
-		setPrecio(precio);
-	}
+	private int cantidadVendida;
+    private double totalVendido;
 	
 	public Producto(int id, String nombre, double precio, String descripcion, double calificacion) {
 		setId(id);
 		setNombre(nombre);
 		setPrecio(precio);
+	}
+	
+	public Producto(int id, String nombre, double precio, String descripcion, double calificacion, int cantidadVendida, double totalVendido ) {
+		setId(id);
+		setNombre(nombre);
+		setPrecio(precio);
 		setDescripcion(descripcion);
 		setCalificacion(calificacion);
+		setTotalVendido(totalVendido);
+		setCantidadVendida(cantidadVendida);
 	}
 	
 	public void setPrecio(double precio) {
@@ -60,6 +64,22 @@ public class Producto {
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
 	}
+	
+    public int getCantidadVendida() {
+        return cantidadVendida;
+    }
+
+    public double getTotalVendido() {
+        return totalVendido;
+    }
+
+    public void setCantidadVendida(int cantidadVendida) {
+        this.cantidadVendida = cantidadVendida;
+    }
+
+    public void setTotalVendido(double totalVendido) {
+        this.totalVendido = totalVendido;
+    }
 	
 	
 }

@@ -10,6 +10,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
@@ -190,6 +191,16 @@ public class VistaAdministrador extends JFrame {
 		encabezado.setBackground(BEIGE);
 		encabezado.setForeground(AZUL_MARINO);
 		encabezado.setOpaque(true);
+	}
+	
+	public void mostrarMensaje(String mensaje) {
+	    JOptionPane.showMessageDialog(this, mensaje);
+	}
+
+	public void actualizarHistorial(Object[][] datos) {
+		   String[] columnas = { "ID", "Nombre", "Cantidad", "Total" };
+		    DefaultTableModel modelo = new DefaultTableModel(datos, columnas);
+		    tablaHistorial.setModel(modelo);
 	}
 
 	public JButton getBotonCrear() {

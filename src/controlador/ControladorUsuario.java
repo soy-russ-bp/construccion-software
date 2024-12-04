@@ -115,7 +115,7 @@ public class ControladorUsuario {
             redirigirVistaEmpleado();
 
         } else if (usuario.getTipo().equals("Administrador")) {
-            redirigirVistaAdministrador();
+            redirigirVistaAdministrador(usuario.getId(), usuario.getCorreo(), usuario.getContraseña(), usuario.getTipo());
 
         }
     }
@@ -126,8 +126,10 @@ public class ControladorUsuario {
     private void redirigirVistaEmpleado() {
         //TODO
     }
-    private void redirigirVistaAdministrador() {
-        //TODO
+    private void redirigirVistaAdministrador(int id, String correo, String contraseña, String tipo) {
+        VistaAdministrador vistaAdministrador = new VistaAdministrador();
+        Administrador administrador = new Administrador( id, correo, contraseña, tipo);
+        new ControladorAdministrador(administrador, vistaAdministrador);
     }
 
 }
