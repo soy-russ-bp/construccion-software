@@ -11,6 +11,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
@@ -26,10 +27,11 @@ public class VistaCliente extends JFrame {
 	JButton botonEnviarPedido;
 	JButton botonVerDetalles;
 	JButton botonAgregarProducto;
-	JLabel idPedido;
 	JLabel totalPedido;
 	JTable tablaProductos;
-	JTable tablaHistorial;
+	JTable tablaPedidos;
+	DefaultTableModel modeloTablaProductos;
+	DefaultTableModel modeloTablaPedidos;
 
 	/**
 	 * Launch the application.
@@ -54,7 +56,7 @@ public class VistaCliente extends JFrame {
 		setTitle("Pedido");
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 778, 407);
+		setBounds(100, 100, 900, 407);
 		getContentPane().setLayout(null);
 		getContentPane().setBackground(CAFE);
 
@@ -81,8 +83,10 @@ public class VistaCliente extends JFrame {
 		getContentPane().add(tituloProductos);
 
 		// Tabla de productos
-		String[] columnasTablaProductos = { "Nombre", "Precio", "Calificación" };
-		tablaProductos = new JTable(new DefaultTableModel(null, columnasTablaProductos));
+		String[] columnasTablaProductos = { "id", "Nombre", "Precio", "Calificación" };
+		modeloTablaProductos = new DefaultTableModel(columnasTablaProductos, 0);
+		tablaProductos = new JTable(modeloTablaProductos);
+		tablaProductos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		inicializarTabla(tablaProductos);
 
 		JScrollPane scrollProductos = new JScrollPane(tablaProductos);
@@ -95,10 +99,12 @@ public class VistaCliente extends JFrame {
 		// Botones debajo de la tabla de productos
 		botonVerDetalles = new JButton("Ver detalles");
 		botonVerDetalles.setBounds(66, 309, 126, 30);
+		botonVerDetalles.setEnabled(false);
 		inicializarBoton(botonVerDetalles);
 
 		botonAgregarProducto = new JButton("Agregar al pedido");
 		botonAgregarProducto.setBounds(291, 309, 126, 30);
+		botonAgregarProducto.setEnabled(false);
 		inicializarBoton(botonAgregarProducto);
 
 		/**
@@ -112,24 +118,18 @@ public class VistaCliente extends JFrame {
 		IdLabel.setBounds(540, 36, 35, 20);
 		getContentPane().add(IdLabel);
 
-		// ID del pedido
-		idPedido = new JLabel("--");
-		idPedido.setHorizontalAlignment(SwingConstants.LEFT);
-		idPedido.setForeground(new Color(46, 65, 83));
-		idPedido.setFont(new Font("Arial Rounded MT Bold", Font.PLAIN, 18));
-		idPedido.setBounds(572, 36, 158, 20);
-		getContentPane().add(idPedido);
-
 		// Tabla del pedido
-		String[] columnasTablaPedido = { "Producto", "Precio" };
-		tablaHistorial = new JTable(new DefaultTableModel(null, columnasTablaPedido));
-		inicializarTabla(tablaHistorial);
+		String[] columnasTablaPedido = { "Producto", "Cantidad", "Subtotal" };
+		modeloTablaPedidos = new DefaultTableModel(columnasTablaPedido, 0);
+		tablaPedidos = new JTable(modeloTablaPedidos);
+		tablaProductos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		inicializarTabla(tablaPedidos);
 
-		JScrollPane scrollPedido = new JScrollPane(tablaHistorial);
-		scrollPedido.setBounds(540, 65, 190, 190);
+		JScrollPane scrollPedido = new JScrollPane(tablaPedidos);
+		scrollPedido.setBounds(540, 65, 310, 190);
 		inicializarScroll(scrollPedido);
 
-		JTableHeader encabezadoTablaHistorial = tablaHistorial.getTableHeader();
+		JTableHeader encabezadoTablaHistorial = tablaPedidos.getTableHeader();
 		inicializarEncabezadoTabla(encabezadoTablaHistorial);
 
 		// Etiqueta total: $
@@ -177,5 +177,41 @@ public class VistaCliente extends JFrame {
 		encabezado.setBackground(BEIGE);
 		encabezado.setForeground(AZUL_MARINO);
 		encabezado.setOpaque(true);
+	}
+
+	public void borrarTabla(DefaultTableModel tabla) {
+		tabla.setRowCount(0);
+	}
+
+	public JButton getBotonEnviarPedido() {
+		return botonEnviarPedido;
+	}
+
+	public JButton getBotonVerDetalles() {
+		return botonVerDetalles;
+	}
+
+	public JButton getBotonAgregarProducto() {
+		return botonAgregarProducto;
+	}
+
+	public JLabel getTotalPedido() {
+		return totalPedido;
+	}
+
+	public JTable getTablaProductos() {
+		return tablaProductos;
+	}
+
+	public JTable getTablaPedidos() {
+		return tablaPedidos;
+	}
+
+	public DefaultTableModel getModeloTablaProductos() {
+		return modeloTablaProductos;
+	}
+
+	public DefaultTableModel getModeloTablaPedidos() {
+		return modeloTablaPedidos;
 	}
 }

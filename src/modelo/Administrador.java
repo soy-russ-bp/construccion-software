@@ -4,6 +4,11 @@ import java.util.List;
 import DAO.ProductoDAO;
 
 public class Administrador extends Usuario {
+	
+	public Administrador(int id, String correo, String contrasena, String tipo) {
+		super(id, correo, contrasena, tipo);
+	}
+
 	public List<Retroalimentacion> gestionarRetroalimentacion(){
 		return null;
 	}
@@ -13,15 +18,12 @@ public class Administrador extends Usuario {
 	}
 	
 	public List<Pedido> verHistorialPedidos(){
-		return PedidoDAO.obtenerPedidos(); //producto DAO podria ser
+		return null;
 	}
 	
-	
-	    public Reporte verReportes(String periodo) {
-	        List<Producto> productosVendidos = ProductoDAO.obtenerProductosVendidos();
-	        return new Reporte(periodo, productosVendidos);
-	    }
-
+	public Reporte verReportes(String periodo) {
+		return null;
+	}
 	
 	public void agregarProducto(String nombre, double precio, String descripcion) {
 		ProductoDAO.agregarProducto(nombre, precio, descripcion);

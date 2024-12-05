@@ -2,18 +2,18 @@ package DAO;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import modelo.Producto;
 
 public class ProductoDAO {
-	 private static List<Producto> productosVendidos = new ArrayList<>();
-    
     public static void agregarProducto(String nombre, double precio, String descripcion) {
         String sql = "INSERT INTO productos (nombre, precio, descripcion) VALUES (?, ?, ?)";
 
         try (Connection conn = ConexionBaseDatos.obtenerConexion();
-            PreparedStatement stmt = conn.prepareStatement(sql)) {
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setString(1, nombre);
             stmt.setDouble(2, precio);
@@ -120,28 +120,74 @@ public class ProductoDAO {
         }
     }
     
-    public static void agregarProductoVendido(Producto producto) {
-        boolean productoExistente = false;
+    public static double obtenerPrecioProducto(int idProductoSeleccionado) {
+    	String sql = "SELECT precio FROM productos WHERE id_producto = ?";
+    	double precio = -1;
 
-        // Verificar si el producto ya existe en la lista
-        for (Producto p : productosVendidos) {
-            if (p.getId() == producto.getId()) {
-                // Si existe, actualizamos la cantidad y el total vendido
-                p.setCantidadVendida(p.getCantidadVendida() + producto.getCantidadVendida());
-                p.setTotalVendido(p.getTotalVendido() + producto.getTotalVendido());
-                productoExistente = true;
-                break;
+        try (Connection conn = ConexionBaseDatos.obtenerConexion();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, idProductoSeleccionado);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    precio = rs.getDouble("precio");
+                } else {
+                    System.out.println("Producto con ID " + idProductoSeleccionado + " no encontrado.");
+                }
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
 
-        // Si no existe, lo agregamos a la lista
-        if (!productoExistente) {
-            productosVendidos.add(producto);
+        return precio;
+    }
+    
+    public static Map<Integer, Integer> obtenerCantidadVendidaPorProducto() {
+        String sql = "SELECT id_producto, COUNT(*) AS cantidad_vendida FROM ventas GROUP BY id_producto";
+        Map<Integer, Integer> cantidadVendidaPorProducto = new HashMap<>();
+
+        try (Connection conn = ConexionBaseDatos.obtenerConexion();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+
+            while (rs.next()) {
+                int idProducto = rs.getInt("id_producto");
+                int cantidadVendida = rs.getInt("cantidad_vendida");
+                cantidadVendidaPorProducto.put(idProducto, cantidadVendida);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
+
+        return cantidadVendidaPorProducto;
     }
 
-    // Método para obtener la lista de productos vendidos
     public static List<Producto> obtenerProductosVendidos() {
-        return new ArrayList<>(productosVendidos); // Retorna una copia de la lista
+        String sql = "SELECT p.id_producto, p.nombre, p.precio, p.descripcion, p.calificacion, COUNT(v.id_producto) AS cantidad_vendida " +
+                     "FROM productos p LEFT JOIN ventas v ON p.id_producto = v.id_producto GROUP BY p.id_producto";
+        List<Producto> productosVendidos = new ArrayList<>();
+
+        try (Connection conn = ConexionBaseDatos.obtenerConexion();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+
+            while (rs.next()) {
+                int idProducto = rs.getInt("id_producto");
+                String nombre = rs.getString("nombre");
+                double precio = rs.getDouble("precio");
+                String descripcion = rs.getString("descripcion");
+                double calificacion = rs.getDouble("calificacion");
+                int cantidadVendida = rs.getInt("cantidad_vendida");
+
+                Producto producto = new Producto(idProducto, nombre, precio, descripcion, calificacion);
+                producto.setCantidadVendida(cantidadVendida);
+                productosVendidos.add(producto);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return productosVendidos;
     }
 }

@@ -36,6 +36,7 @@ public class VistaAdministrador extends JFrame {
 	JTable tablaHistorial;
 	DefaultTableModel modeloTablaProductos;
 	JComboBox<String> selectorMes;
+	
 
 	/**
 	 * Launch the application.
@@ -128,7 +129,7 @@ public class VistaAdministrador extends JFrame {
 		getContentPane().add(tituloHistorial);
 
 		// Lista desplegable para seleccionar mes
-		selectorMes = new JComboBox<>(new String[] { "Mes" });
+		selectorMes = new JComboBox<>(new String[] { "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre" });
 		selectorMes.setFont(new Font("Arial Rounded MT Bold", Font.PLAIN, 14));
 		selectorMes.setBounds(540, 51, 190, 25);
 		selectorMes.setForeground(AZUL_MARINO);

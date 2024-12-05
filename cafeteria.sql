@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 04-12-2024 a las 13:44:49
+-- Tiempo de generación: 05-12-2024 a las 07:42:27
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -28,7 +28,6 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `detalle_pedidos` (
-  `id_detalle` int(11) NOT NULL,
   `id_pedido` int(11) NOT NULL,
   `id_producto` int(11) NOT NULL,
   `cantidad` int(11) NOT NULL,
@@ -46,8 +45,16 @@ CREATE TABLE `pedidos` (
   `id_cliente` int(11) NOT NULL,
   `fecha_pedido` datetime DEFAULT current_timestamp(),
   `estado` enum('Pendiente','Entregado','Pagado') DEFAULT 'Pendiente',
-  `total` decimal(10,2) NOT NULL
+  `total` decimal(10,2) NOT NULL DEFAULT 0.00
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `pedidos`
+--
+
+INSERT INTO `pedidos` (`id_pedido`, `id_cliente`, `fecha_pedido`, `estado`, `total`) VALUES
+(2, 1, '2024-12-05 00:33:19', 'Pendiente', 134.00),
+(3, 1, '2024-12-05 00:37:46', 'Pendiente', 0.00);
 
 -- --------------------------------------------------------
 
@@ -68,8 +75,8 @@ CREATE TABLE `productos` (
 --
 
 INSERT INTO `productos` (`id_producto`, `nombre`, `precio`, `descripcion`, `calificacion`) VALUES
-(1, 'capuccino', 40.00, 'Bebida caliente con café, leche y crema', 0.0),
-(4, 'espresso', 45.00, 'espressooo', 0.0),
+(1, 'capuccino', 30.00, 'Bebida caliente con café, leche y crema', 0.0),
+(4, 'espresso', 44.00, 'espressooo', 0.0),
 (5, 'cafe colombiano', 36.00, 'de colombia para el mundo', 0.0);
 
 -- --------------------------------------------------------
@@ -101,6 +108,13 @@ CREATE TABLE `usuarios` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
+-- Volcado de datos para la tabla `usuarios`
+--
+
+INSERT INTO `usuarios` (`id_usuario`, `nombre`, `contrasena`, `tipo_usuario`) VALUES
+(1, 'admin', 'contrasena', 'Administrador');
+
+--
 -- Índices para tablas volcadas
 --
 
@@ -108,9 +122,9 @@ CREATE TABLE `usuarios` (
 -- Indices de la tabla `detalle_pedidos`
 --
 ALTER TABLE `detalle_pedidos`
-  ADD PRIMARY KEY (`id_detalle`),
-  ADD KEY `id_pedido` (`id_pedido`),
-  ADD KEY `id_producto` (`id_producto`);
+  ADD PRIMARY KEY (`id_pedido`,`id_producto`),
+  ADD KEY `id_producto` (`id_producto`),
+  ADD KEY `id_pedido` (`id_pedido`);
 
 --
 -- Indices de la tabla `pedidos`
@@ -144,16 +158,10 @@ ALTER TABLE `usuarios`
 --
 
 --
--- AUTO_INCREMENT de la tabla `detalle_pedidos`
---
-ALTER TABLE `detalle_pedidos`
-  MODIFY `id_detalle` int(11) NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT de la tabla `pedidos`
 --
 ALTER TABLE `pedidos`
-  MODIFY `id_pedido` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_pedido` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `productos`
@@ -171,7 +179,7 @@ ALTER TABLE `retroalimentaciones`
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Restricciones para tablas volcadas
@@ -181,8 +189,8 @@ ALTER TABLE `usuarios`
 -- Filtros para la tabla `detalle_pedidos`
 --
 ALTER TABLE `detalle_pedidos`
-  ADD CONSTRAINT `detalle_pedidos_ibfk_1` FOREIGN KEY (`id_pedido`) REFERENCES `pedidos` (`id_pedido`) ON DELETE CASCADE,
-  ADD CONSTRAINT `detalle_pedidos_ibfk_2` FOREIGN KEY (`id_producto`) REFERENCES `productos` (`id_producto`) ON DELETE CASCADE;
+  ADD CONSTRAINT `detalle_pedidos_ibfk_1` FOREIGN KEY (`id_pedido`) REFERENCES `pedidos` (`id_pedido`),
+  ADD CONSTRAINT `detalle_pedidos_ibfk_2` FOREIGN KEY (`id_producto`) REFERENCES `productos` (`id_producto`);
 
 --
 -- Filtros para la tabla `pedidos`
