@@ -179,6 +179,10 @@ public class VistaCliente extends JFrame {
 		encabezado.setOpaque(true);
 	}
 
+	public void borrarTabla(DefaultTableModel tabla) {
+		tabla.setRowCount(0);
+	}
+
 	public JButton getBotonEnviarPedido() {
 		return botonEnviarPedido;
 	}

@@ -8,14 +8,12 @@ import java.util.Map;
 public class Pedido {
 	private int id;
 	private Cliente cliente;
-	private List<Producto> productos;
 	private List<DetallePedido> detallePedido;
 	private String estado;
 	private double total;
 	
 	public Pedido(Cliente cliente) {
 		this.cliente = cliente;
-		this.productos = new ArrayList<>();
 		this.detallePedido = new ArrayList<>();
 		calcularTotal();
 	}
@@ -26,16 +24,13 @@ public class Pedido {
         for (Producto producto : productos) {
             frecuencias.put(producto, 0);
         }
-        
-        
-
         return frecuencias;
     }
 	
 	public void calcularTotal() {
 		this.total = 0;
 		for (DetallePedido producto : detallePedido) {
-		    total += producto.getSubtotal();
+		    this.total += producto.getSubtotal();
 		}
 	}
 	
@@ -53,5 +48,21 @@ public class Pedido {
 	
 	public Cliente getCliente() {
 		return this.cliente;
+	}
+
+	public List<DetallePedido> getDetallePedido() {
+		return detallePedido;
+	}
+
+	public void agregarProductoAPedido(DetallePedido producto) {
+		this.detallePedido.add(producto);
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 }

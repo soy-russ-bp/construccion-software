@@ -29,11 +29,18 @@ public class ControladorConfirmarProducto implements ActionListener{
         }
 		
 		if (e.getSource() == this.vista.getBotonAceptar()) {
-			int cantidadSeleccionada= (int)this.vista.getCantidad().getValue();
-			this.controladorCliente.getProductosAComprar().put(producto, cantidadSeleccionada);
-			this.controladorCliente.actualizarTablaPedidos();
-	    	this.vista.dispose();
-			
+			aceptar();
         }
+	}
+	
+	private void aceptar() {
+		int cantidadSeleccionada= (int)this.vista.getCantidad().getValue();
+		this.controladorCliente.getProductosAComprar().put(this.producto, cantidadSeleccionada);
+		this.controladorCliente.actualizarPedido();
+    	this.vista.dispose();
+	}
+
+	public void setProducto(Producto producto) {
+		this.producto = producto;
 	}
 }

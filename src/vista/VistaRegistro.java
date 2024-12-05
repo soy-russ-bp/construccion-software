@@ -14,12 +14,13 @@ public class VistaRegistro extends JFrame {
 	private final Color AZUL = new Color(51, 102, 255);
 	private final Color AZUL_MARINO = new Color(46, 65, 83);
 
-	private JTextField txtNombre;
-	private JTextField txtCorreo;
-	private JTextField txtContrasena;
-	private JTextField txtConfirmarContrasena;
-	private JButton btnRegistrarse;
-	private JButton btnYaTengoCuenta;
+	private JTextField textoNombre;
+	private JTextField textoCorreo;
+	private JTextField textoContrasena;
+	private JTextField textoConfirmarContrasena;
+	private JButton botonRegistrarse;
+	private JButton botonYaTengoCuenta;
+	private JLabel mensajeLabel;
 
 	/**
 	 * Launch the application.
@@ -69,8 +70,8 @@ public class VistaRegistro extends JFrame {
 		panel.add(lblNombre);
 
 		// Campo Nombre
-		txtNombre = new JTextField();
-		inicializarCampoTexto(txtNombre, 30, 90, panel);
+		textoNombre = new JTextField();
+		inicializarCampoTexto(textoNombre, 30, 90, panel);
 
 		// Etiqueta Correo
 		JLabel lblCorreo = new JLabel("Correo electrónico:");
@@ -80,8 +81,8 @@ public class VistaRegistro extends JFrame {
 		panel.add(lblCorreo);
 
 		// Campo Correo
-		txtCorreo = new JTextField();
-		inicializarCampoTexto(txtCorreo, 30, 150, panel);
+		textoCorreo = new JTextField();
+		inicializarCampoTexto(textoCorreo, 30, 150, panel);
 
 		// Etiqueta Contraseña
 		JLabel lblContrasena = new JLabel("Contraseña:");
@@ -91,8 +92,8 @@ public class VistaRegistro extends JFrame {
 		panel.add(lblContrasena);
 
 		// Campo Contraseña
-		txtContrasena = new JTextField();
-		inicializarCampoTexto(txtContrasena, 30, 210, panel);
+		textoContrasena = new JTextField();
+		inicializarCampoTexto(textoContrasena, 30, 210, panel);
 
 		// Etiqueta Confirmar Contraseña
 		JLabel lblConfirmarContrasena = new JLabel("Confirmar contraseña:");
@@ -102,12 +103,19 @@ public class VistaRegistro extends JFrame {
 		panel.add(lblConfirmarContrasena);
 
 		// Campo Confirmar Contraseña
-		txtConfirmarContrasena = new JTextField();
-		inicializarCampoTexto(txtConfirmarContrasena, 30, 270, panel);
+		textoConfirmarContrasena = new JTextField();
+		inicializarCampoTexto(textoConfirmarContrasena, 30, 270, panel);
 
 		// Botón Registrarse
-		btnRegistrarse = new JButton("Registrarse");
-		inicializarBoton(btnRegistrarse, CAFE_CLARO, 30, 310, panel);
+		botonRegistrarse = new JButton("Registrarse");
+		inicializarBoton(botonRegistrarse, CAFE_CLARO, 30, 310, panel);
+
+		// Etiqueta de mensaje
+		mensajeLabel = new JLabel();
+		mensajeLabel.setFont(new Font("Arial", Font.PLAIN, 12));
+		mensajeLabel.setForeground(Color.RED);
+		mensajeLabel.setBounds(30, 340, 340, 20);
+		panel.add(mensajeLabel);
 
 		// Separador
 		JSeparator separador = new JSeparator();
@@ -115,8 +123,8 @@ public class VistaRegistro extends JFrame {
 		panel.add(separador);
 
 		// Botón "Ya tengo cuenta"
-		btnYaTengoCuenta = new JButton("Ya tengo una cuenta");
-		inicializarBotonTextoPlano(btnYaTengoCuenta, AZUL, 30, 360, panel);
+		botonYaTengoCuenta = new JButton("Ya tengo una cuenta");
+		inicializarBotonTextoPlano(botonYaTengoCuenta, AZUL, 30, 360, panel);
 
 		// Fondo
 		JLabel fondo = new JLabel();
@@ -157,12 +165,28 @@ public class VistaRegistro extends JFrame {
 		panel.add(boton);
 	}
 
-	// Métodos para añadir ActionListeners
-	public void addRegistrarseListener(ActionListener actionListener) {
-		btnRegistrarse.addActionListener(actionListener);
+	public void setMensaje(String mensaje) {
+		mensajeLabel.setText(mensaje);
 	}
 
-	public void addYaTengoCuentaListener(ActionListener actionListener) {
-		btnYaTengoCuenta.addActionListener(actionListener);
+	public String getCorreo() {
+		return textoCorreo.getText();
+	}
+
+	public String getContrasena() {
+		return textoContrasena.getText();
+	}
+
+	public String getConfirmarContrasena() {
+		return textoConfirmarContrasena.getText();
+	}
+
+	// Métodos para añadir ActionListeners
+	public void addRegistroListener(ActionListener actionListener) {
+		botonRegistrarse.addActionListener(actionListener);
+	}
+
+	public void addBotonYaTengoCuentaListener(ActionListener actionListener) {
+		botonYaTengoCuenta.addActionListener(actionListener);
 	}
 }

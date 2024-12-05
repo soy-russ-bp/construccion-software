@@ -118,7 +118,7 @@ public class ProductoDAO {
         }
     }
     
-    public static double obtenerPrecioProducto(int idProductoSeleccionado) {
+    /*public static double obtenerPrecioProducto(int idProductoSeleccionado) {
     	String sql = "SELECT precio FROM productos WHERE id_producto = ?";
     	double precio = -1;
 
@@ -139,5 +139,5 @@ public class ProductoDAO {
         }
 
         return precio;
-    }
+    }*/
 }

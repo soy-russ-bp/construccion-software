@@ -66,6 +66,7 @@ public class ControladorAdministrador implements ActionListener, ListSelectionLi
 				this.controladorModificarProducto = new ControladorModificarProducto(administrador, 
 						this.vistaModificarProducto, this);
 			}
+			this.controladorModificarProducto.inicializarVista();
         }
 		
 		
@@ -116,6 +117,7 @@ public class ControladorAdministrador implements ActionListener, ListSelectionLi
 	public void valueChanged(ListSelectionEvent e) {
 		if (!e.getValueIsAdjusting()) {
 	        int selectedRow = this.vista.getTablaProductos().getSelectedRow();
+	        
 	        if (selectedRow != -1) {
 	        	int idProductoSeleccionado = (int) vista.getModeloTablaProductos().getValueAt(selectedRow, 0);
 	        	productoSeleccionado = administrador.seleccionarProducto(idProductoSeleccionado);

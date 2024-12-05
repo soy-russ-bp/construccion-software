@@ -18,12 +18,7 @@ public class ControladorModificarProducto extends ControladorRegistrarProducto{
 		
 		getVista().getBotonCancelar().addActionListener(this);
 		getVista().getBotonGuardar().addActionListener(this);
-		getVista().getNombreProducto().setText(
-				String.valueOf(getControladorAdministrador().getProductoSeleccionado().getNombre()));
-		getVista().getPrecioProducto().setText(
-				String.valueOf(getControladorAdministrador().getProductoSeleccionado().getPrecio()));
-		getVista().getDescripcionProducto().setText(
-				String.valueOf(getControladorAdministrador().getProductoSeleccionado().getDescripcion()));
+		inicializarVista();
 	}
 	
 	public void guardarDatos() {
@@ -35,6 +30,15 @@ public class ControladorModificarProducto extends ControladorRegistrarProducto{
     	getAdministrador().actualizarProducto(id, nombreProducto, precio, descripcionProducto);
     	getControladorAdministrador().actualizarTablaProductos();
     	getVista().dispose();
+	}
+	
+	public void inicializarVista(){
+		getVista().getNombreProducto().setText(
+				String.valueOf(getControladorAdministrador().getProductoSeleccionado().getNombre()));
+		getVista().getPrecioProducto().setText(
+				String.valueOf(getControladorAdministrador().getProductoSeleccionado().getPrecio()));
+		getVista().getDescripcionProducto().setText(
+				String.valueOf(getControladorAdministrador().getProductoSeleccionado().getDescripcion()));
 	}
 
 }

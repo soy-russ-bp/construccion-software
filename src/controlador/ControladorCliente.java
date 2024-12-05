@@ -2,7 +2,6 @@ package controlador;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -17,7 +16,6 @@ import modelo.Pedido;
 import modelo.Producto;
 import vista.VistaCliente;
 import vista.VistaConfirmarProducto;
-import vista.VistaRegistrarProducto;
 import vista.VistaDetalles;
 
 public class ControladorCliente implements ActionListener, ListSelectionListener{
@@ -44,7 +42,6 @@ public class ControladorCliente implements ActionListener, ListSelectionListener
 		this.vista.getBotonAgregarProducto().addActionListener(this);
 		
 		this.vista.getTablaProductos().getSelectionModel().addListSelectionListener(this);
-		this.vista.getTablaPedidos().getSelectionModel().addListSelectionListener(this);
 		
 		actualizarTablaProductos();
 	}
@@ -52,74 +49,26 @@ public class ControladorCliente implements ActionListener, ListSelectionListener
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == this.vista.getBotonAgregarProducto()) {
-			if(this.vistaAgregarProducto == null) {
-				this.vistaAgregarProducto = new VistaConfirmarProducto();
-			} 
-			this.vistaAgregarProducto.setVisible(true);
-			
-			if(this.controladorAgregarProducto == null) {
-				this.controladorAgregarProducto = new ControladorConfirmarProducto(vistaAgregarProducto, 
-						productoSeleccionado, this);
-			}
+			agregarProducto();
         }
 		
 		if (e.getSource() == this.vista.getBotonVerDetalles()) {
-        	
-    		if(this.vistaDetalles == null) {
-    			this.vistaDetalles = new VistaDetalles();
-    		} 
-    		
-    		vistaDetalles.setVisible(true);
-    		vistaDetalles.getNombreProducto().setText(String.valueOf(productoSeleccionado.getNombre()));
-			vistaDetalles.getCalificacion().setText(String.valueOf(productoSeleccionado.getCalificacion()));
-			vistaDetalles.getPrecio().setText(String.valueOf(productoSeleccionado.getPrecio()));
-			vistaDetalles.getDescripcion().setText(String.valueOf(productoSeleccionado.getDescripcion()));
+        	verDetalle();
         }
 		
 		if (e.getSource() == this.vista.getBotonEnviarPedido()) {
-			int confirmacion = JOptionPane.showConfirmDialog(
-                    this.vista,
-                    "¿Estás seguro de realizar el pedido?",
-                    "Confirmación",
-                    JOptionPane.YES_NO_OPTION
-            );
-			
-			if (confirmacion == JOptionPane.YES_OPTION) {
-			    //this.cliente.hacerPedido(this.pedido);
-			    productoSeleccionado = null;
-			    actualizarTablaProductos();
-			}
+			enviarPedido();
         }
 	}
 	
-	public void actualizarTablaProductos() {
-		vista.getModeloTablaProductos().setRowCount(0);
-		for (Producto producto : verMenu()) {
-		    vista.getModeloTablaProductos().addRow(new Object[]{
-		    		producto.getId(), producto.getNombre(), producto.getPrecio(), 
-		    		producto.getCalificacion()});
-		}
-	}
 	
-	public void actualizarTablaPedidos() {
-		vista.getModeloTablaPedidos().setRowCount(0);
-		
-		for (Map.Entry<Producto, Integer> entry : getProductosAComprar().entrySet()) {
-		    if (getProductosAComprar().get(entry.getKey()) >= 1) {
-		    	vista.getModeloTablaPedidos().addRow(new Object[]{
-		    			entry.getKey().getNombre(), getProductosAComprar().get(entry.getKey()), 
-		    			entry.getKey().getPrecio() * getProductosAComprar().get(entry.getKey())});
-		    }
-		}
-	}
-
 	@Override
 	public void valueChanged(ListSelectionEvent e) {
 		if (!e.getValueIsAdjusting()) {
 	        int selectedRow = this.vista.getTablaProductos().getSelectedRow();
 	        if (selectedRow != -1) {
 	        	int idProductoSeleccionado = (int) vista.getModeloTablaProductos().getValueAt(selectedRow, 0);
-	        	productoSeleccionado = ProductoDAO.seleccionarProducto(idProductoSeleccionado);
+	        	this.productoSeleccionado = ProductoDAO.seleccionarProducto(idProductoSeleccionado);
 	        	
 	        	this.vista.getBotonVerDetalles().setEnabled(true);
 	            this.vista.getBotonAgregarProducto().setEnabled(true);
@@ -131,12 +80,83 @@ public class ControladorCliente implements ActionListener, ListSelectionListener
 	    }
 	}
 	
-	public Producto getProductoSeleccionado() {
-		return this.productoSeleccionado;
+	private void agregarProducto() {
+		if(this.vistaAgregarProducto == null) {
+			this.vistaAgregarProducto = new VistaConfirmarProducto();
+		} 
+		this.vistaAgregarProducto.setVisible(true);
+		
+		if(this.controladorAgregarProducto == null) {
+			this.controladorAgregarProducto = new ControladorConfirmarProducto(this.vistaAgregarProducto, 
+					this.productoSeleccionado, this);
+		}
+		this.controladorAgregarProducto.setProducto(productoSeleccionado);
+	}
+	
+	private void verDetalle() {
+		if(this.vistaDetalles == null) {
+			this.vistaDetalles = new VistaDetalles();
+		} 
+		
+		vistaDetalles.setVisible(true);
+		vistaDetalles.getNombreProducto().setText(String.valueOf(productoSeleccionado.getNombre()));
+		vistaDetalles.getCalificacion().setText(String.valueOf(productoSeleccionado.getCalificacion()));
+		vistaDetalles.getPrecio().setText(String.valueOf(productoSeleccionado.getPrecio()));
+		vistaDetalles.getDescripcion().setText(String.valueOf(productoSeleccionado.getDescripcion()));
+	}
+	
+	private void enviarPedido() {
+		int confirmacion = JOptionPane.showConfirmDialog(
+                this.vista,
+                "¿Estás seguro de realizar el pedido?",
+                "Confirmación",
+                JOptionPane.YES_NO_OPTION
+        );
+		
+		if (confirmacion == JOptionPane.YES_OPTION) {
+		    this.cliente.hacerPedido(this.pedido);
+		    productoSeleccionado = null;
+		    actualizarTablaProductos();
+		}
+		this.vista.borrarTabla(this.vista.getModeloTablaPedidos());
+	}
+	
+	public void actualizarPedido() {
+		this.vista.getModeloTablaPedidos().setRowCount(0);
+		this.pedido.getDetallePedido().clear();
+		
+		for (Map.Entry<Producto, Integer> productoSeleccionado : getProductosAComprar().entrySet()) {
+			Producto producto = productoSeleccionado.getKey();
+			int cantidad = getProductosAComprar().get(producto);
+			
+			System.out.println(producto.getNombre() + " " + cantidad);
+			System.out.println(this.productoSeleccionado.getNombre() + " " + cantidad);
+			
+			this.pedido.agregarProductoAPedido(new DetallePedido(producto, cantidad));
+		    if (cantidad >= 1) {
+		    	this.vista.getModeloTablaPedidos().addRow(new Object[]{producto.getNombre(), cantidad,
+		    			producto.getPrecio() * cantidad});
+		    }
+		}
+		this.pedido.calcularTotal();
+		this.vista.getTotalPedido().setText(String.valueOf(pedido.getTotal()));
+	}
+	
+	public void actualizarTablaProductos() {
+		vista.getModeloTablaProductos().setRowCount(0);
+		for (Producto producto : verMenu()) {
+		    vista.getModeloTablaProductos().addRow(new Object[]{
+		    		producto.getId(), producto.getNombre(), producto.getPrecio(), 
+		    		producto.getCalificacion()});
+		}
 	}
 	
 	public List<Producto> verMenu() {
 		return ProductoDAO.mostrarProductos();
+	}
+	
+	public Producto getProductoSeleccionado() {
+		return this.productoSeleccionado;
 	}
 	
 	public Map<Producto, Integer> getProductosAComprar(){

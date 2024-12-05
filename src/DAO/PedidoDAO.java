@@ -4,38 +4,38 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import modelo.DetallePedido;
 import modelo.Pedido;
 import modelo.Producto;
 
 public class PedidoDAO {
     public static void hacerPedido(Pedido pedido) {
-        String sql = "INSERT INTO pedidos (id_cliente, estado, total) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO pedidos (id_cliente, total) VALUES (?, ?)";
 
         try (Connection conn = ConexionBaseDatos.obtenerConexion();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setInt(1, pedido.getCliente().getId());
-            stmt.setString(2, pedido.getEstado());
-            stmt.setDouble(3, pedido.getTotal());
+            stmt.setDouble(2, pedido.getTotal());
             stmt.executeUpdate();
-            System.out.println("Producto agregado exitosamente.");
+            System.out.println("Pedido hecho exitosamente.");
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
     
-    public static void agregarProductoAlPedido(int idPedido, int idProducto, int cantidad) {
+    public static void agregarProductoAlPedido(int idPedido, DetallePedido producto) {
     	String sql = "INSERT INTO detalle_pedidos (id_pedido, id_producto, cantidad, subtotal) VALUES (?, ?, ?, ?)";
 
         try (Connection conn = ConexionBaseDatos.obtenerConexion();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setInt(1, idPedido);
-            stmt.setInt(2, idProducto);
-            stmt.setInt(3, cantidad);
-            stmt.setDouble(3, calcularSubtotal(idProducto, cantidad));
+            stmt.setInt(2, producto.getProducto().getId());
+            stmt.setInt(3, producto.getCantidad());
+            stmt.setDouble(4, producto.getSubtotal());
             stmt.executeUpdate();
-            System.out.println("Producto agregado exitosamente.");
+            System.out.println("Producto agregado al pedido exitosamente.");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -90,24 +90,7 @@ public class PedidoDAO {
         return producto;
     }
     
-    public static void actualizarPedido(int id, String nombre, double precio, String descripcion) {
-        String sql = "UPDATE productos SET nombre = ?, precio = ?, descripcion = ? WHERE id_producto = ?";
-
-        try (Connection conn = ConexionBaseDatos.obtenerConexion();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-
-            stmt.setString(1, nombre);
-            stmt.setDouble(2, precio);
-            stmt.setString(3, descripcion);
-            stmt.setInt(4, id);
-            stmt.executeUpdate();
-            System.out.println("Producto actualizado.");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-    
-    public static void actualizarEstado(int id, double calificacion) {
+    public static void actualizarEstadoPedido(int id, double calificacion) {
     	String sql = "UPDATE productos SET calificacion = ? WHERE id_producto = ?";
 
         try (Connection conn = ConexionBaseDatos.obtenerConexion();
@@ -120,9 +103,5 @@ public class PedidoDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-    }
-    
-    public static double calcularSubtotal(int idProducto, int cantidad) {
-    	return cantidad * ProductoDAO.obtenerPrecioProducto(idProducto);
     }
 }

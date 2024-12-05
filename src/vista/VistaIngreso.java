@@ -2,6 +2,8 @@ package vista;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.ActionListener;
+
 import javax.swing.*;
 
 public class VistaIngreso extends JFrame {
@@ -18,6 +20,7 @@ public class VistaIngreso extends JFrame {
 	private JTextField textoContrasenaIngreso;
 	private JButton botonIngresar;
 	private JButton botonNoTengoCuenta;
+	private JLabel mensajeLabel;
 
 	/**
 	 * Launch the application.
@@ -85,6 +88,13 @@ public class VistaIngreso extends JFrame {
 		botonIngresar = new JButton("Ingresar");
 		inicializarBoton(botonIngresar, CAFE_CLARO, 30, 200, panel);
 
+		// Etiqueta de mensaje
+		mensajeLabel = new JLabel();
+		mensajeLabel.setFont(new Font("Arial", Font.PLAIN, 12));
+		mensajeLabel.setForeground(Color.RED);
+		mensajeLabel.setBounds(30, 270, 340, 20);
+		panel.add(mensajeLabel);
+
 		// Separador
 		JSeparator separador = new JSeparator();
 		separador.setBounds(30, 240, 340, 10);
@@ -133,4 +143,25 @@ public class VistaIngreso extends JFrame {
 		boton.setHorizontalAlignment(SwingConstants.LEFT);
 		panel.add(boton);
 	}
+
+	public void setMensaje(String mensaje) {
+		mensajeLabel.setText(mensaje);
+	}
+
+	public String getCorreo() {
+		return textoCorreoIngreso.getText();
+	}
+
+	public String getContrasena() {
+		return textoContrasenaIngreso.getText();
+	}
+
+	public void addIngresoListener(ActionListener listener) {
+		botonIngresar.addActionListener(listener);
+	}
+
+	public void addBotonNoTengoCuentaListener(ActionListener listener) {
+		botonNoTengoCuenta.addActionListener(listener);
+	}
+
 }
