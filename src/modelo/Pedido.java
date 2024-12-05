@@ -1,5 +1,6 @@
 package modelo;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -8,6 +9,7 @@ import java.util.Map;
 public class Pedido {
 	private int id;
 	private Cliente cliente;
+	private LocalDate fecha;
 	private List<DetallePedido> detallePedido;
 	private String estado;
 	private double total;
@@ -16,6 +18,12 @@ public class Pedido {
 		this.cliente = cliente;
 		this.detallePedido = new ArrayList<>();
 		calcularTotal();
+	}
+	
+	public Pedido(int id, LocalDate fecha, double total) {
+		setId(id);
+		setFecha(fecha);
+		setTotal(total);
 	}
 	
 	public Map<Producto, Integer> contarFrecuencias(List<Producto> productos) {
@@ -34,6 +42,10 @@ public class Pedido {
 		}
 	}
 	
+	private void setTotal(double total) {
+		this.total = total;
+	}
+	
 	public double getTotal() {
 		return this.total;
 	}
@@ -48,6 +60,14 @@ public class Pedido {
 	
 	public Cliente getCliente() {
 		return this.cliente;
+	}
+
+	public LocalDate getFecha() {
+		return fecha;
+	}
+
+	public void setFecha(LocalDate fecha) {
+		this.fecha = fecha;
 	}
 
 	public List<DetallePedido> getDetallePedido() {

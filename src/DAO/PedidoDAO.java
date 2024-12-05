@@ -1,6 +1,7 @@
 package DAO;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -64,30 +65,29 @@ public class PedidoDAO {
         return productos;
     }
     
-    public static Producto seleccionarPedido(int idProductoSeleccionado) {
-        Producto producto = null;
-        String sql = "SELECT * FROM productos WHERE id_producto = ?";
+    public static List<Pedido> seleccionarPedidosPorFecha(LocalDate fechaInicio, LocalDate fechaFin) {
+        List<Pedido> pedidos = new ArrayList<>();
+        String sql = "SELECT * FROM pedidos WHERE fecha_pedido >= ? AND fecha_pedido <= ?";
 
         try (Connection conn = ConexionBaseDatos.obtenerConexion();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
-            pstmt.setInt(1, idProductoSeleccionado);
+            PreparedStatement pstmt = conn.prepareStatement(sql)) {
+             
+            pstmt.setDate(1, java.sql.Date.valueOf(fechaInicio));
+            pstmt.setDate(2, java.sql.Date.valueOf(fechaFin));
 
             try (ResultSet rs = pstmt.executeQuery()) {
-                if (rs.next()) {
-                    int id = rs.getInt("id_producto");
-                    String nombre = rs.getString("nombre");
-                    double precio = rs.getDouble("precio");
-                    String descripcion = rs.getString("descripcion");
-                    double calificacion = rs.getDouble("calificacion");
-                    
-                    producto = new Producto(id, nombre, precio, descripcion, calificacion);
+                while (rs.next()) {
+                    int idPedido = rs.getInt("id_pedido");
+                    LocalDate fechaPedido = rs.getDate("fecha_pedido").toLocalDate();
+                    double total = rs.getDouble("total");
+
+                    pedidos.add(new Pedido(idPedido, fechaPedido, total));
                 }
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return producto;
+        return pedidos;
     }
     
     public static void actualizarEstadoPedido(int id, double calificacion) {

@@ -34,7 +34,7 @@ public class ControladorCliente implements ActionListener, ListSelectionListener
 		this.vista = vista;
 		this.cliente = cliente;
 		this.pedido = new Pedido(cliente);
-		this.productosAComprar = pedido.contarFrecuencias(verMenu());
+		this.productosAComprar = pedido.contarFrecuencias(consultarMenu());
 		
 		
 		this.vista.getBotonEnviarPedido().addActionListener(this);
@@ -129,9 +129,6 @@ public class ControladorCliente implements ActionListener, ListSelectionListener
 			Producto producto = productoSeleccionado.getKey();
 			int cantidad = getProductosAComprar().get(producto);
 			
-			System.out.println(producto.getNombre() + " " + cantidad);
-			System.out.println(this.productoSeleccionado.getNombre() + " " + cantidad);
-			
 			this.pedido.agregarProductoAPedido(new DetallePedido(producto, cantidad));
 		    if (cantidad >= 1) {
 		    	this.vista.getModeloTablaPedidos().addRow(new Object[]{producto.getNombre(), cantidad,
@@ -144,14 +141,14 @@ public class ControladorCliente implements ActionListener, ListSelectionListener
 	
 	public void actualizarTablaProductos() {
 		vista.getModeloTablaProductos().setRowCount(0);
-		for (Producto producto : verMenu()) {
+		for (Producto producto : consultarMenu()) {
 		    vista.getModeloTablaProductos().addRow(new Object[]{
 		    		producto.getId(), producto.getNombre(), producto.getPrecio(), 
 		    		producto.getCalificacion()});
 		}
 	}
 	
-	public List<Producto> verMenu() {
+	public List<Producto> consultarMenu() {
 		return ProductoDAO.mostrarProductos();
 	}
 	

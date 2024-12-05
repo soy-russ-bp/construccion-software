@@ -10,12 +10,14 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
+import javax.swing.JTextField;
 
 public class VistaAdministrador extends JFrame {
 
@@ -32,9 +34,11 @@ public class VistaAdministrador extends JFrame {
 	JButton botonGenerarReporte;
 	JLabel totalVentas;
 	JTable tablaProductos;
-	JTable tablaHistorial;
+	JTable tablaReporte;
 	DefaultTableModel modeloTablaProductos;
-	JComboBox<String> selectorMes;
+	DefaultTableModel modeloTablaReporte;
+	JTextField fechaInicio;
+	JTextField fechaFin;
 
 	/**
 	 * Launch the application.
@@ -59,7 +63,7 @@ public class VistaAdministrador extends JFrame {
 		setTitle("Administración de cafetería");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setResizable(false);
-		setBounds(100, 100, 778, 407);
+		setBounds(100, 100, 875, 443);
 		getContentPane().setLayout(null);
 		getContentPane().setBackground(CAFE);
 
@@ -69,7 +73,7 @@ public class VistaAdministrador extends JFrame {
 
 		// Total de ventas
 		totalVentas = new JLabel("0.00");
-		totalVentas.setBounds(604, 269, 126, 30);
+		totalVentas.setBounds(602, 307, 126, 30);
 		totalVentas.setBackground(BEIGE);
 		totalVentas.setBorder(null);
 		totalVentas.setFont(new Font("Arial Rounded MT Bold", Font.PLAIN, 14));
@@ -93,7 +97,7 @@ public class VistaAdministrador extends JFrame {
 		inicializarTabla(tablaProductos);
 
 		JScrollPane scrollProductos = new JScrollPane(tablaProductos);
-		scrollProductos.setBounds(20, 51, 450, 236);
+		scrollProductos.setBounds(20, 51, 450, 256);
 		inicializarScroll(scrollProductos);
 
 		JTableHeader header = tablaProductos.getTableHeader();
@@ -101,54 +105,58 @@ public class VistaAdministrador extends JFrame {
 
 		// Botones debajo de la tabla de productos
 		botonCrear = new JButton("Crear");
-		inicializarBoton(botonCrear, 20, 309);
+		inicializarBoton(botonCrear, 20, 349);
 
 		botonModificar = new JButton("Modificar");
-		inicializarBoton(botonModificar, 130, 309);
+		inicializarBoton(botonModificar, 130, 349);
 		botonModificar.setEnabled(false);
 
 		botonEliminar = new JButton("Eliminar");
-		inicializarBoton(botonEliminar, 240, 309);
+		inicializarBoton(botonEliminar, 240, 349);
 		botonEliminar.setEnabled(false);
 
 		botonVerDetalles = new JButton("Ver detalles");
-		inicializarBoton(botonVerDetalles, 350, 309);
+		inicializarBoton(botonVerDetalles, 350, 349);
 		botonVerDetalles.setEnabled(false);
 
 		/**
 		 * Sección para consultar el historial y el reporte
 		 */
 
-		// Etiqueta historial
-		JLabel tituloHistorial = new JLabel("Historial");
-		tituloHistorial.setFont(new Font("Arial Rounded MT Bold", Font.BOLD, 20));
-		tituloHistorial.setForeground(AZUL_MARINO);
-		tituloHistorial.setBounds(540, 19, 100, 20);
-		getContentPane().add(tituloHistorial);
+		// Etiqueta reporte
+		JLabel tituloReporte = new JLabel("Reporte");
+		tituloReporte.setFont(new Font("Arial Rounded MT Bold", Font.BOLD, 20));
+		tituloReporte.setForeground(AZUL_MARINO);
+		tituloReporte.setBounds(540, 19, 100, 20);
+		getContentPane().add(tituloReporte);
 
-		// Lista desplegable para seleccionar mes
-		selectorMes = new JComboBox<>(new String[] { "Mes" });
-		selectorMes.setFont(new Font("Arial Rounded MT Bold", Font.PLAIN, 14));
-		selectorMes.setBounds(540, 51, 190, 25);
-		selectorMes.setForeground(AZUL_MARINO);
-		selectorMes.setBackground(BEIGE);
-		getContentPane().add(selectorMes);
+		// Campo para fecha de inicio del periodo del reporte
+		fechaInicio = new JTextField();
+		inicializarCampoTexto(fechaInicio, 540, 79);
+		getContentPane().add(fechaInicio);
 
-		// Tabla del historial
-		String[] columnasTablaHistorial = { "Mes", "Ganancias" };
-		tablaHistorial = new JTable(new DefaultTableModel(null, columnasTablaHistorial));
-		inicializarTabla(tablaHistorial);
+		// Campo para fecha de fin del periodo del reporte
+		fechaFin = new JTextField();
+		inicializarCampoTexto(fechaFin, 672, 79);
+		getContentPane().add(fechaFin);
 
-		JScrollPane scrollHistorial = new JScrollPane(tablaHistorial);
-		scrollHistorial.setBounds(540, 85, 190, 170);
-		inicializarScroll(scrollHistorial);
+		// Tabla del reporte
+		String[] columnasTablaReporte = { "ID Pedido", "Fecha", "Total" };
+		modeloTablaReporte = new DefaultTableModel(columnasTablaReporte, 0);
+		tablaReporte = new JTable(modeloTablaReporte);
+		tablaReporte.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		inicializarTabla(tablaReporte);
 
-		JTableHeader encabezadoTablaHistorial = tablaHistorial.getTableHeader();
-		inicializarEncabezadoTabla(encabezadoTablaHistorial);
+		JScrollPane scrollReporte = new JScrollPane(tablaReporte);
+		scrollReporte.setBounds(540, 110, 300, 185);
+		inicializarScroll(scrollReporte);
+
+		JTableHeader encabezadoTablaReporte = tablaReporte.getTableHeader();
+		inicializarEncabezadoTabla(encabezadoTablaReporte);
 
 		// Etiqueta total: $
 		JLabel totalLabel = new JLabel(" Total:  $");
-		totalLabel.setBounds(540, 269, 180, 30);
+		totalLabel.setBounds(540, 307, 180, 30);
 		totalLabel.setFont(new Font("Arial Rounded MT Bold", Font.PLAIN, 14));
 		totalLabel.setForeground(AZUL_MARINO);
 		totalLabel.setBackground(BEIGE);
@@ -156,9 +164,21 @@ public class VistaAdministrador extends JFrame {
 		totalLabel.setOpaque(true);
 		getContentPane().add(totalLabel);
 
+		JLabel labelFechaInicio = new JLabel("Fecha de inicio");
+		labelFechaInicio.setFont(new Font("Arial Rounded MT Bold", Font.PLAIN, 14));
+		labelFechaInicio.setForeground(AZUL_MARINO);
+		labelFechaInicio.setBounds(540, 57, 110, 14);
+		getContentPane().add(labelFechaInicio);
+
+		JLabel labelFechaFin = new JLabel("Fecha de fin");
+		labelFechaFin.setFont(new Font("Arial Rounded MT Bold", Font.PLAIN, 14));
+		labelFechaFin.setForeground(AZUL_MARINO);
+		labelFechaFin.setBounds(672, 55, 110, 14);
+		getContentPane().add(labelFechaFin);
+
 		// Botón para generar reporte
 		botonGenerarReporte = new JButton("Generar reporte");
-		inicializarBoton(botonGenerarReporte, 540, 309);
+		inicializarBoton(botonGenerarReporte, 540, 349);
 
 		// Mostrar la ventana
 		setVisible(true);
@@ -190,6 +210,20 @@ public class VistaAdministrador extends JFrame {
 		encabezado.setBackground(BEIGE);
 		encabezado.setForeground(AZUL_MARINO);
 		encabezado.setOpaque(true);
+	}
+
+	private void inicializarCampoTexto(JTextField campo, int coordenadaX, int coordenadaY) {
+		campo.setFont(new Font("Arial", Font.PLAIN, 14));
+		campo.setForeground(AZUL_MARINO);
+		campo.setBackground(BEIGE);
+		campo.setBorder(null);
+		campo.setBounds(coordenadaX, coordenadaY, 100, 20);
+		campo.setColumns(10);
+		campo.setText("DD-MM-YYYY");
+	}
+
+	public void mostrarMensaje(String mensaje) {
+		JOptionPane.showMessageDialog(this, mensaje);
 	}
 
 	public JButton getBotonCrear() {
@@ -228,12 +262,19 @@ public class VistaAdministrador extends JFrame {
 		return modeloTablaProductos;
 	}
 
-	public JTable getTablaHistorial() {
-		return tablaHistorial;
+	public JTable getTablaReporte() {
+		return tablaReporte;
 	}
 
-	public JComboBox<String> getSelectorMes() {
-		return selectorMes;
+	public DefaultTableModel getModeloTablaReporte() {
+		return modeloTablaReporte;
 	}
 
+	public JTextField getFechaInicio() {
+		return fechaInicio;
+	}
+
+	public JTextField getFechaFin() {
+		return fechaFin;
+	}
 }

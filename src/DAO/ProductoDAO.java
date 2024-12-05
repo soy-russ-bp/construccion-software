@@ -117,27 +117,4 @@ public class ProductoDAO {
             e.printStackTrace();
         }
     }
-    
-    /*public static double obtenerPrecioProducto(int idProductoSeleccionado) {
-    	String sql = "SELECT precio FROM productos WHERE id_producto = ?";
-    	double precio = -1;
-
-        try (Connection conn = ConexionBaseDatos.obtenerConexion();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-
-            stmt.setInt(1, idProductoSeleccionado);
-
-            try (ResultSet rs = stmt.executeQuery()) {
-                if (rs.next()) {
-                    precio = rs.getDouble("precio");
-                } else {
-                    System.out.println("Producto con ID " + idProductoSeleccionado + " no encontrado.");
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return precio;
-    }*/
 }
