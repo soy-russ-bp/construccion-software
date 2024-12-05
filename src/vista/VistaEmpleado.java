@@ -11,11 +11,13 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 
 public class VistaEmpleado extends JFrame {
+	DefaultTableModel modeloTablaProductos;
 
 	private static final long serialVersionUID = 1L;
 	private final Color BEIGE = new Color(199, 193, 183);
@@ -63,7 +65,9 @@ public class VistaEmpleado extends JFrame {
 
 		// Tabla de productos
 		String[] columnasTablaProductos = { "Cliente", "Folio Pedido", "Total Hechos", "Total Compra", "Estado" };
-		tablaProductos = new JTable(new DefaultTableModel(null, columnasTablaProductos));
+		modeloTablaProductos = new DefaultTableModel(columnasTablaProductos, 0);
+		tablaProductos = new JTable(modeloTablaProductos);
+		tablaProductos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		inicializarTabla(tablaProductos);
 
 		JScrollPane scrollProductos = new JScrollPane(tablaProductos);
@@ -77,9 +81,6 @@ public class VistaEmpleado extends JFrame {
 		botonVerDetalles = new JButton("Ver detalles");
 		botonVerDetalles.setBounds(245, 400, 120, 30);
 		inicializarBoton(botonVerDetalles);
-
-		// Mostrar la ventana
-		setVisible(true);
 	}
 
 	private void inicializarBoton(JButton boton) {
@@ -111,4 +112,19 @@ public class VistaEmpleado extends JFrame {
 	public JButton getBotonVerDetalles() {
 		return botonVerDetalles;
 	}
+
+	public DefaultTableModel getModeloTablaProductos() {
+		return modeloTablaProductos;
+	}
+
+	public JTable getTablaProductos() {
+		return tablaProductos;
+	}
+
+	public void actualizarProductos(Object[][] datos) {
+		String[] columnas = { "Cliente", "Folio Pedido", "Total Hechos", "Total Compra", "Estado" };
+		DefaultTableModel modelo = new DefaultTableModel(datos, columnas);
+		tablaProductos.setModel(modelo);
+	}
+
 }

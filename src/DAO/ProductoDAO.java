@@ -7,6 +7,8 @@ import java.util.List;
 import modelo.Producto;
 
 public class ProductoDAO {
+	private static List<Producto> productosVendidos = new ArrayList<>();
+	
     public static void agregarProducto(String nombre, double precio, String descripcion) {
         String sql = "INSERT INTO productos (nombre, precio, descripcion) VALUES (?, ?, ?)";
 
@@ -116,5 +118,30 @@ public class ProductoDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+    
+    public static void agregarProductoVendido(Producto producto) {
+        boolean productoExistente = false;
+
+        // Verificar si el producto ya existe en la lista
+        for (Producto p : productosVendidos) {
+            if (p.getId() == producto.getId()) {
+                // Si existe, actualizamos la cantidad y el total vendido
+                p.setCantidadVendida(p.getCantidadVendida() + producto.getCantidadVendida());
+                p.setTotalVendido(p.getTotalVendido() + producto.getTotalVendido());
+                productoExistente = true;
+                break;
+            }
+        }
+
+        // Si no existe, lo agregamos a la lista
+        if (!productoExistente) {
+            productosVendidos.add(producto);
+        }
+    }
+
+    // Método para obtener la lista de productos vendidos
+    public static List<Producto> obtenerProductosVendidos() {
+        return new ArrayList<>(productosVendidos); // Retorna una copia de la lista
     }
 }

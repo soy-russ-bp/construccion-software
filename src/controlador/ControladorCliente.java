@@ -2,6 +2,8 @@ package controlador;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -114,9 +116,15 @@ public class ControladorCliente implements ActionListener, ListSelectionListener
         );
 		
 		if (confirmacion == JOptionPane.YES_OPTION) {
-		    this.cliente.hacerPedido(this.pedido);
-		    productoSeleccionado = null;
-		    actualizarTablaProductos();
+		    try {
+				this.cliente.hacerPedido(this.pedido);
+				productoSeleccionado = null;
+			    actualizarPedido();
+			    actualizarTablaProductos();
+			    this.vista.getTotalPedido().setText("0.00");
+			} catch (SQLException e) {
+				this.vista.mostrarMensaje("No se pudo realizar el pedido.");
+			}
 		}
 		this.vista.borrarTabla(this.vista.getModeloTablaPedidos());
 	}
@@ -135,6 +143,15 @@ public class ControladorCliente implements ActionListener, ListSelectionListener
 		    			producto.getPrecio() * cantidad});
 		    }
 		}
+		
+		Iterator<DetallePedido> iterator = this.pedido.getDetallePedido().iterator();
+        while (iterator.hasNext()) {
+            DetallePedido elemento = iterator.next();
+            if (elemento.getCantidad() < 1) {
+                iterator.remove();
+            }
+        }
+		
 		this.pedido.calcularTotal();
 		this.vista.getTotalPedido().setText(String.valueOf(pedido.getTotal()));
 	}

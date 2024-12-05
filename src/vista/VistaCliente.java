@@ -9,6 +9,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
@@ -181,6 +182,10 @@ public class VistaCliente extends JFrame {
 
 	public void borrarTabla(DefaultTableModel tabla) {
 		tabla.setRowCount(0);
+	}
+
+	public void mostrarMensaje(String mensaje) {
+		JOptionPane.showMessageDialog(this, mensaje);
 	}
 
 	public JButton getBotonEnviarPedido() {

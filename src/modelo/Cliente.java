@@ -1,5 +1,7 @@
 package modelo;
 
+import java.sql.SQLException;
+
 import DAO.PedidoDAO;
 
 public class Cliente extends Usuario {
@@ -15,12 +17,8 @@ public class Cliente extends Usuario {
 		
 	}
 	
-	public void hacerPedido(Pedido pedido) {
+	public void hacerPedido(Pedido pedido) throws SQLException {
 		PedidoDAO.hacerPedido(pedido);
-		for(DetallePedido producto : pedido.getDetallePedido()) {
-			PedidoDAO.agregarProductoAlPedido(pedido.getId(), producto);
-		}
 	}
-	
 	
 }

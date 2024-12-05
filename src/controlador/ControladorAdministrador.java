@@ -149,6 +149,7 @@ public class ControladorAdministrador implements ActionListener, ListSelectionLi
 	}
 	
 	private void generarReporte() {
+        try {
         establecerPeriodo(this.vista.getFechaInicio().getText(), this.vista.getFechaFin().getText());
         
         if (!reporte.getPedidos().isEmpty()) {
@@ -160,6 +161,10 @@ public class ControladorAdministrador implements ActionListener, ListSelectionLi
         	actualizarTablaReporte();
         }	else {
         	vista.mostrarMensaje("No se encontraron resultados.");
+        }
+        this.vista.getTotalVentas().setText(String.valueOf(reporte.getTotalVentas()));
+        } catch (Exception e){
+        	 JOptionPane.showMessageDialog(this.vista, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 	
@@ -182,7 +187,7 @@ public class ControladorAdministrador implements ActionListener, ListSelectionLi
 		}
 	}
 	
-	private void establecerPeriodo(String fechaInicioTexto, String fechaFinalTexto) {
+	private void establecerPeriodo(String fechaInicioTexto, String fechaFinalTexto) throws Exception {
 		this.reporte = null;
 		String fechaInicioStr = fechaInicioTexto.trim();
         String fechaFinStr = fechaFinalTexto.trim();
@@ -193,13 +198,14 @@ public class ControladorAdministrador implements ActionListener, ListSelectionLi
             LocalDate fechaFin = LocalDate.parse(fechaFinStr, formatter);
             
             if (fechaInicio.isAfter(fechaFin)) {
-                JOptionPane.showMessageDialog(this.vista, "La fecha de inicio no puede ser posterior a la fecha de fin.", "Error", JOptionPane.ERROR_MESSAGE);
-                return;
+                throw new Exception ("La fecha de inicio no puede ser posterior a la fecha de fin.");
             }
             this.reporte = new Reporte(fechaInicio, fechaFin);
-         
-        } catch (DateTimeParseException ex) {
-            JOptionPane.showMessageDialog(this.vista, "Por favor, introduce las fechas en el formato correcto (yyyy-MM-dd).", "Error", JOptionPane.ERROR_MESSAGE);
+
+        } catch (DateTimeParseException e) {
+        	throw new Exception( "Por favor, introduce las fechas en el formato correcto (yyyy-MM-dd).");
+        } catch (Exception ex) {
+        	throw ex;
         }
 	}
 	

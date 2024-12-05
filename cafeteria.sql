@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 05-12-2024 a las 07:42:27
+-- Tiempo de generación: 05-12-2024 a las 22:20:52
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -47,14 +47,6 @@ CREATE TABLE `pedidos` (
   `estado` enum('Pendiente','Entregado','Pagado') DEFAULT 'Pendiente',
   `total` decimal(10,2) NOT NULL DEFAULT 0.00
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `pedidos`
---
-
-INSERT INTO `pedidos` (`id_pedido`, `id_cliente`, `fecha_pedido`, `estado`, `total`) VALUES
-(2, 1, '2024-12-05 00:33:19', 'Pendiente', 134.00),
-(3, 1, '2024-12-05 00:37:46', 'Pendiente', 0.00);
 
 -- --------------------------------------------------------
 
@@ -112,7 +104,8 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`id_usuario`, `nombre`, `contrasena`, `tipo_usuario`) VALUES
-(1, 'admin', 'contrasena', 'Administrador');
+(1, 'admin', 'contrasena', 'Administrador'),
+(2, 'mimi2', '123', 'Cliente');
 
 --
 -- Índices para tablas volcadas
@@ -123,7 +116,6 @@ INSERT INTO `usuarios` (`id_usuario`, `nombre`, `contrasena`, `tipo_usuario`) VA
 --
 ALTER TABLE `detalle_pedidos`
   ADD PRIMARY KEY (`id_pedido`,`id_producto`),
-  ADD KEY `id_producto` (`id_producto`),
   ADD KEY `id_pedido` (`id_pedido`);
 
 --
@@ -161,7 +153,7 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de la tabla `pedidos`
 --
 ALTER TABLE `pedidos`
-  MODIFY `id_pedido` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_pedido` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `productos`
@@ -179,7 +171,7 @@ ALTER TABLE `retroalimentaciones`
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Restricciones para tablas volcadas
@@ -189,8 +181,7 @@ ALTER TABLE `usuarios`
 -- Filtros para la tabla `detalle_pedidos`
 --
 ALTER TABLE `detalle_pedidos`
-  ADD CONSTRAINT `detalle_pedidos_ibfk_1` FOREIGN KEY (`id_pedido`) REFERENCES `pedidos` (`id_pedido`),
-  ADD CONSTRAINT `detalle_pedidos_ibfk_2` FOREIGN KEY (`id_producto`) REFERENCES `productos` (`id_producto`);
+  ADD CONSTRAINT `detalle_pedidos_ibfk_1` FOREIGN KEY (`id_pedido`) REFERENCES `pedidos` (`id_pedido`) ON DELETE CASCADE;
 
 --
 -- Filtros para la tabla `pedidos`

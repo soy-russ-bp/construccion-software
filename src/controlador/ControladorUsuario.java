@@ -3,9 +3,12 @@ package controlador;
 import DAO.UsuarioDAO;
 import modelo.Administrador;
 import modelo.Cliente;
+import modelo.Empleado;
 import modelo.Usuario;
 import vista.VistaAdministrador;
 import vista.VistaCliente;
+import vista.VistaDetallesHecho;
+import vista.VistaEmpleado;
 import vista.VistaIngreso;
 import vista.VistaRegistro;
 
@@ -110,7 +113,7 @@ public class ControladorUsuario {
             redirigirVistaCliente(usuario.getId(), usuario.getCorreo(), usuario.getContrasena(), usuario.getTipo());   
 
         } else if (usuario.getTipo().equals("Empleado")) {
-            redirigirVistaEmpleado();
+            redirigirVistaEmpleado(usuario.getId(), usuario.getCorreo(), usuario.getContrasena(), usuario.getTipo());
 
         } else if (usuario.getTipo().equals("Administrador")) {
             redirigirVistaAdministrador(usuario.getId(), usuario.getCorreo(), usuario.getContrasena(), usuario.getTipo());
@@ -125,9 +128,17 @@ public class ControladorUsuario {
         Cliente cliente = new Cliente(id, correo, contrasena, tipo);
         new ControladorCliente(cliente, vistaCliente);
     }
-    private void redirigirVistaEmpleado() {
-        //TODO
+    
+    private void redirigirVistaEmpleado(int id, String correo, String contraseña, String tipo) {
+        this.vistaIngreso.setVisible(false);
+        VistaEmpleado vistaEmpleado = new VistaEmpleado();
+        VistaCliente vistaCliente = new VistaCliente();
+        VistaDetallesHecho vistaDetalles = new VistaDetallesHecho();
+		Empleado empleado = new Empleado(id, correo, contraseña, tipo);
+        new ControladorEmpleado(vistaEmpleado, vistaCliente, vistaDetalles, empleado);
+
     }
+    
     private void redirigirVistaAdministrador(int id, String correo, String contrasena, String tipo) {
         this.vistaIngreso.setVisible(false);
         VistaAdministrador vistaAdministrador = new VistaAdministrador();

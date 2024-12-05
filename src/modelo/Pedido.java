@@ -9,15 +9,25 @@ import java.util.Map;
 public class Pedido {
 	private int id;
 	private Cliente cliente;
+	private String nombreCliente;
 	private LocalDate fecha;
 	private List<DetallePedido> detallePedido;
 	private String estado;
 	private double total;
+	private String totalProductosHechos;
 	
 	public Pedido(Cliente cliente) {
 		this.cliente = cliente;
 		this.detallePedido = new ArrayList<>();
 		calcularTotal();
+	}
+	
+	public Pedido(int id, String nombre, String totalHechos, float pago, String estado) {
+		this.id = id;
+		this.nombreCliente = nombre;
+		this.totalProductosHechos = totalHechos;
+		this.total = pago;
+		this.estado = estado;
 	}
 	
 	public Pedido(int id, LocalDate fecha, double total) {
@@ -84,5 +94,21 @@ public class Pedido {
 
 	public void setId(int id) {
 		this.id = id;
+	}
+	
+	public String getNombreCliente() {
+		return nombreCliente;
+	}
+
+	public void setNombreCliente(String nombreCliente) {
+		this.nombreCliente = nombreCliente;
+	}
+
+	public String getTotalProductosHechos() {
+		return totalProductosHechos;
+	}
+
+	public void setTotalProductosHechos(String totalProductosHechos) {
+		this.totalProductosHechos = totalProductosHechos;
 	}
 }
