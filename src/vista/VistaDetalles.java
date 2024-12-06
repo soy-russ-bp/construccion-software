@@ -14,6 +14,7 @@ public class VistaDetalles extends JFrame {
 	private JLabel imagenProducto;
 	private JLabel descripcionProducto;
 	private JLabel precioProducto;
+	private JLabel calificacionPrecio;
 
 	/**
 	 * Launch the application.
@@ -40,7 +41,7 @@ public class VistaDetalles extends JFrame {
 		getContentPane().setBackground(CAFE);
 		getContentPane().setLayout(null);
 
-		JLabel calificacionPrecio = new JLabel("4.5");
+		calificacionPrecio = new JLabel("4.5");
 		calificacionPrecio.setHorizontalAlignment(SwingConstants.LEFT);
 		calificacionPrecio.setForeground(new Color(46, 65, 83));
 		calificacionPrecio.setFont(new Font("Arial Rounded MT Bold", Font.PLAIN, 16));
@@ -113,12 +114,16 @@ public class VistaDetalles extends JFrame {
 		return imagenProducto;
 	}
 
-	public JLabel getDescripcionProducto() {
+	public JLabel getDescripcion() {
 		return descripcionProducto;
 	}
 
-	public JLabel getPrecioProducto() {
+	public JLabel getPrecio() {
 		return precioProducto;
+	}
+
+	public JLabel getCalificacion() {
+		return calificacionPrecio;
 	}
 
 }

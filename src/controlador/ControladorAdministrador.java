@@ -1,26 +1,30 @@
 package controlador;
 
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.List;
 
+import javax.swing.JOptionPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import java.util.List;
 
 import DAO.ProductoDAO;
 import modelo.Administrador;
 import modelo.Producto;
 import modelo.Reporte;
 import vista.VistaAdministrador;
-import vista.VistaAgregarProducto;
+import vista.VistaRegistrarProducto;
 import vista.VistaDetalles;
 
 public class ControladorAdministrador implements ActionListener, ListSelectionListener{
 	private Administrador administrador;
 	private VistaAdministrador vista;
 	
-	private VistaAgregarProducto vistaAgregarProducto;
-	private ControladorAgregarProducto controladorAgregarProducto;
+	private VistaRegistrarProducto vistaModificarProducto;
+	private VistaRegistrarProducto vistaAgregarProducto;
+	private ControladorRegistrarProducto controladorAgregarProducto;
+	private ControladorModificarProducto controladorModificarProducto;
 	
 	private VistaDetalles vistaDetalles;
 	private Producto productoSeleccionado;
@@ -66,18 +70,28 @@ public class ControladorAdministrador implements ActionListener, ListSelectionLi
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == this.vista.getBotonCrear()) {
 			if(this.vistaAgregarProducto == null) {
-				this.vistaAgregarProducto = new VistaAgregarProducto();
+				this.vistaAgregarProducto = new VistaRegistrarProducto();
 			} 
+			this.vistaAgregarProducto.setVisible(true);
 			
 			if(this.controladorAgregarProducto == null) {
-				this.controladorAgregarProducto = new ControladorAgregarProducto(administrador, 
-						this.vistaAgregarProducto, this);
+				this.controladorAgregarProducto = new ControladorRegistrarProducto(administrador, this.vistaAgregarProducto, this);
 			}
-			
         }
 		
+
 		if (e.getSource() == this.vista.getBotonModificar()) {
-        	
+			if(this.vistaModificarProducto == null) {
+				this.vistaModificarProducto = new VistaRegistrarProducto();
+				this.vistaModificarProducto.setTitulo("Modificar producto");
+				this.vistaModificarProducto.setTitle("Modificar producto");
+			} 
+			this.vistaModificarProducto.setVisible(true);
+			
+			if(this.controladorModificarProducto == null) {
+				this.controladorModificarProducto = new ControladorModificarProducto(administrador, 
+						this.vistaModificarProducto, this);
+			}
         }
 		
 		
@@ -85,13 +99,29 @@ public class ControladorAdministrador implements ActionListener, ListSelectionLi
         	
     		if(this.vistaDetalles == null) {
     			this.vistaDetalles = new VistaDetalles();
-    			vistaDetalles.getPrecioProducto();
     		} 
     		
+    		vistaDetalles.setVisible(true);
+    		vistaDetalles.getNombreProducto().setText(String.valueOf(productoSeleccionado.getNombre()));
+			vistaDetalles.getCalificacion().setText(String.valueOf(productoSeleccionado.getCalificacion()));
+			vistaDetalles.getPrecio().setText(String.valueOf(productoSeleccionado.getPrecio()));
+			vistaDetalles.getDescripcion().setText(String.valueOf(productoSeleccionado.getDescripcion()));
         }
 		
 		if (e.getSource() == this.vista.getBotonEliminar()) {
-        	
+			int confirmacion = JOptionPane.showConfirmDialog(
+                    this.vista,
+                    "¿Estás seguro de que deseas eliminar " +
+                    productoSeleccionado.getNombre() + " del menú?",
+                    "Confirmación",
+                    JOptionPane.YES_NO_OPTION
+            );
+			
+			if (confirmacion == JOptionPane.YES_OPTION) {
+			    administrador.eliminarProducto(productoSeleccionado.getId());
+			    productoSeleccionado = null;
+			    actualizarTablaProductos();
+			}
         }
 		
 		if (e.getSource() == this.vista.getBotonGenerarReporte()) {
@@ -114,7 +144,7 @@ public class ControladorAdministrador implements ActionListener, ListSelectionLi
 	        int selectedRow = this.vista.getTablaProductos().getSelectedRow();
 	        if (selectedRow != -1) {
 	        	int idProductoSeleccionado = (int) vista.getModeloTablaProductos().getValueAt(selectedRow, 0);
-	        	administrador.seleccionarProducto(idProductoSeleccionado);
+	        	productoSeleccionado = administrador.seleccionarProducto(idProductoSeleccionado);
 	        	
 	        	this.vista.getBotonVerDetalles().setEnabled(true);
 	            this.vista.getBotonModificar().setEnabled(true);
@@ -127,5 +157,10 @@ public class ControladorAdministrador implements ActionListener, ListSelectionLi
 	        }
 	    }
 	}
+	
+	public Producto getProductoSeleccionado() {
+		return this.productoSeleccionado;
+	}
 
 }
+

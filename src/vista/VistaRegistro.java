@@ -115,7 +115,7 @@ public class VistaRegistro extends JFrame {
 		// Fondo
 		JLabel fondo = new JLabel();
 		fondo.setIcon(
-				new ImageIcon("C:\\Users\\CASA\\eclipse-workspace\\proyecto_construccion\\src\\vista\\fondo-cafe.jpg"));
+				new ImageIcon("src/vista/fondo-cafe.jpg"));
 		fondo.setBounds(0, 0, 484, 511);
 		getContentPane().add(fondo);
 

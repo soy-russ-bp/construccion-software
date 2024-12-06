@@ -1,13 +1,13 @@
 package test;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-
 import DAO.UsuarioDAO;
-import controlador.ControladorAdministrador;
+import controlador.ControladorEmpleado;
 import controlador.ControladorUsuario;
-import modelo.Administrador;
-import vista.VistaAdministrador;
+import modelo.Empleado;
+import modelo.Producto;
+import vista.VistaCliente;
+import vista.VistaDetallesHecho;
+import vista.VistaEmpleado;
 import vista.VistaIngreso;
 import vista.VistaRegistro;
 

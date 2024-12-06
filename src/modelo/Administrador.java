@@ -18,7 +18,8 @@ public class Administrador extends Usuario {
 	}
 	
 	public List<Pedido> verHistorialPedidos(){
-		return PedidoDAO.obtenerPedidos(); //producto DAO podria ser
+		PedidoDAO pedidoDAO = new PedidoDAO();
+		return pedidoDAO.obtenerPedidos(); //producto DAO podria ser
 	}
 	
 	

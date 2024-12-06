@@ -1,13 +1,15 @@
 package controlador;
 
-import java.sql.Connection;
 
 import DAO.UsuarioDAO;
 import modelo.Administrador;
-import modelo.Cliente;
+import modelo.Empleado;
 import modelo.Usuario;
 import vista.VistaAdministrador;
 import vista.VistaCliente;
+import vista.VistaDetalles;
+import vista.VistaDetallesHecho;
+import vista.VistaEmpleado;
 import vista.VistaIngreso;
 import vista.VistaRegistro;
 
@@ -59,42 +61,38 @@ public class ControladorUsuario {
         String correo = vistaRegistro.getCorreo();
         String contrasena = vistaRegistro.getContrasena();
         String contrasenaConfirmada = vistaRegistro.getConfirmarContrasena();
-
-        validarCorreo(correo);
-        validarContrasena(contrasena, contrasenaConfirmada);
     
         try {
+            validarCorreo(correo);
+            validarContrasena(contrasena, contrasenaConfirmada);
+        
             repositorio.agregarCliente(correo, contrasena);
             vistaRegistro.setMensaje("Usuario registrado correctamente.");
             
             redirigirVistaCliente();
+        } catch (IllegalArgumentException e) {
+            vistaRegistro.setMensaje(e.getMessage());
         } catch (Exception e) {
             vistaRegistro.setMensaje("Error: " + e.getMessage());
         }
     }
-
-    private void validarCorreo(String correo){
-        boolean correoValido = correo.contains("@");
-        if (!correoValido) {
-            vistaRegistro.setMensaje("Ingresa un correo válido.");
-            return; 
+    
+    private void validarCorreo(String correo) {
+        if (!correo.contains("@")) {
+            throw new IllegalArgumentException("Ingresa un correo válido.");
         }
     }
-
-    private void validarContrasena(String contrasena, String contrasenaConfirmada){
-        boolean contrasenaVacia = contrasena.equals("");
-        if (contrasenaVacia) {
-            vistaRegistro.setMensaje("Ingresa una contraseña.");
-            return;
-            
+    
+    private void validarContrasena(String contrasena, String contrasenaConfirmada) {
+        if (contrasena.isEmpty()) {
+            throw new IllegalArgumentException("Ingresa una contraseña.");
         }
-
-        boolean contrasenasIguales = contrasena.equals(contrasenaConfirmada);
-        if (!contrasenasIguales) {
-            vistaRegistro.setMensaje("Las contraseñas no coinciden.");
-            return;
+    
+        if (!contrasena.equals(contrasenaConfirmada)) {
+            throw new IllegalArgumentException("Las contraseñas no coinciden.");
         }
     }
+    
 
     private void mostrarVistaRegistro() {
         vistaIngreso.setVisible(false);
@@ -108,14 +106,19 @@ public class ControladorUsuario {
     }
 
     private void redirigirUsuario(Usuario usuario) {
+        int id = usuario.getId();
+        String correo = usuario.getCorreo();
+        String contraseña = usuario.getContraseña();
+        String tipo = usuario.getTipo();
+
         if (usuario.getTipo().equals("Cliente")) {
             redirigirVistaCliente();   
 
         } else if (usuario.getTipo().equals("Empleado")) {
-            redirigirVistaEmpleado();
+            redirigirVistaEmpleado(id, correo, contraseña, tipo);
 
         } else if (usuario.getTipo().equals("Administrador")) {
-            redirigirVistaAdministrador(usuario.getId(), usuario.getCorreo(), usuario.getContraseña(), usuario.getTipo());
+            redirigirVistaAdministrador(id, correo, contraseña, tipo);
 
         }
     }
@@ -123,8 +126,15 @@ public class ControladorUsuario {
     private void redirigirVistaCliente() {
         //TODO
     }
-    private void redirigirVistaEmpleado() {
-        //TODO
+    
+    private void redirigirVistaEmpleado(int id, String correo, String contraseña, String tipo) {
+        this.vistaIngreso.setVisible(false);
+        VistaEmpleado vistaEmpleado = new VistaEmpleado();
+        VistaCliente vistaCliente = new VistaCliente();
+        VistaDetallesHecho vistaDetalles = new VistaDetallesHecho();
+		Empleado empleado = new Empleado(id, correo, contraseña, tipo);
+        new ControladorEmpleado(vistaEmpleado, vistaCliente, vistaDetalles, empleado);
+
     }
     private void redirigirVistaAdministrador(int id, String correo, String contraseña, String tipo) {
         this.vistaIngreso.setVisible(false);

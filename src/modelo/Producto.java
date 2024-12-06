@@ -13,6 +13,8 @@ public class Producto {
 		setId(id);
 		setNombre(nombre);
 		setPrecio(precio);
+		setDescripcion(descripcion);
+		setCalificacion(calificacion);
 	}
 	
 	public Producto(int id, String nombre, double precio, String descripcion, double calificacion, int cantidadVendida, double totalVendido ) {

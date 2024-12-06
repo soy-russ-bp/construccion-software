@@ -55,24 +55,33 @@ public class VistaDetallesHecho extends JFrame {
 		getContentPane().add(lblIdProducto);
 
 		// Tabla Productos
-		tablaProductos = new JTable();
-		tablaProductos
-				.setModel(
-						new DefaultTableModel(
-								new Object[][] { { "Producto 1", false }, { "Producto 2", true },
-										{ "Producto 3", false }, { "Producto 4", true } },
-								new String[] { "Producto", "Hecho" }) {
-							Class[] columnTypes = new Class[] { String.class, Boolean.class };
+		//proteger la tabla para que no se pueda modificar la casilla "Hecho" manualmente
 
-							public Class<?> getColumnClass(int columnIndex) {
-								return columnTypes[columnIndex];
-							}
-						});
+		tablaProductos = new JTable();
+		tablaProductos.setModel(new DefaultTableModel(
+			new Object[][] {}, // Sin datos iniciales
+			new String[] { "Producto", "Hecho" } // Encabezados de columna
+		) {
+			Class[] columnTypes = new Class[] { String.class, Boolean.class };
+
+			@Override
+			public Class<?> getColumnClass(int columnIndex) {
+				return columnTypes[columnIndex];
+			}
+
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				// Solo permitir editar la columna "Hecho" mediante lógica, no manualmente
+				return false; // Ninguna columna será editable directamente
+			}
+		});
 		tablaProductos.setBackground(BEIGE);
 		tablaProductos.setSelectionBackground(BEIGE);
 		JScrollPane scrollPane = new JScrollPane(tablaProductos);
 		scrollPane.setBounds(30, 60, 320, 200);
 		getContentPane().add(scrollPane);
+	
+
 
 		// Botón Volver
 		btnVolver = new JButton("Volver");
@@ -115,4 +124,27 @@ public class VistaDetallesHecho extends JFrame {
 	public void addMarcarHechoListener(java.awt.event.ActionListener actionListener) {
 		btnMarcarHecho.addActionListener(actionListener);
 	}
+
+	public JButton getBotonMarcarHecho() {
+		return btnMarcarHecho;
+	}
+
+	public JButton getBotonVolver() {
+		return btnVolver;
+	}
+
+	public void cargarDatosTabla(Object[][] datos) {
+		DefaultTableModel modeloTabla = (DefaultTableModel) tablaProductos.getModel();
+		modeloTabla.setRowCount(0); // Limpiar los datos existentes
+		for (Object[] fila : datos) {
+			modeloTabla.addRow(fila); // Añadir cada fila de datos
+		}
+
+
+	}
+
+
+
+
+	
 }

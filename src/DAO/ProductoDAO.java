@@ -7,7 +7,7 @@ import java.util.List;
 import modelo.Producto;
 
 public class ProductoDAO {
-	 private static List<Producto> productosVendidos = new ArrayList<>();
+	private static List<Producto> productosVendidos = new ArrayList<>();
     
     public static void agregarProducto(String nombre, double precio, String descripcion) {
         String sql = "INSERT INTO productos (nombre, precio, descripcion) VALUES (?, ?, ?)";
@@ -30,8 +30,8 @@ public class ProductoDAO {
         String sql = "SELECT * FROM productos";
 
         try (Connection conn = ConexionBaseDatos.obtenerConexion();
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(sql)) {
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql)) {
 
             while (rs.next()) {
                 int id = rs.getInt("id_producto");
